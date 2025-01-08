@@ -27,7 +27,6 @@ public class Page {
 	@JsonIgnore
 	public List<Session> sessions;
 
-
 	
 
 

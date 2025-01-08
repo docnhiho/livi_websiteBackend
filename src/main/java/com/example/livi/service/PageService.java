@@ -15,6 +15,9 @@ public class PageService implements PageInterface {
 	@Autowired
 	private PageRepository pageRepository;
 	
+    public PageService(PageRepository pageRepository) {
+        this.pageRepository = pageRepository;
+    }
 
 	@Override
 	public Page addPage(Page page) {
