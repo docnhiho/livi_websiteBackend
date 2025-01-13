@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.livi.model.AboutAwardRecognition;
 import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.Session;
 import com.example.livi.repository.AboutLiviLifeRepository;
