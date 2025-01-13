@@ -1,10 +1,13 @@
 package com.example.livi.service;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.HeroBanner;
 import com.example.livi.model.Page;
 import com.example.livi.model.Session;
@@ -32,29 +35,37 @@ public class HeroBannerService {
 		return heroBannerRepository.findById(id).orElseThrow(() -> new RuntimeException("Page not found"));
 	}
 
-	public HeroBanner addSBanner(HeroBanner heroBanner, int sessionId) {
-		if (heroBanner != null) {
-			Session session = sessionRepository.findById(sessionId)
-					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
-			heroBanner.setSession(session);
-			return heroBannerRepository.save(heroBanner);
-		}
-		throw new IllegalArgumentException("Session cannot be null");
+	public HeroBanner addSBanner(HeroBanner heroBanner, int sessionId, byte[] fileBytes) {
+		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
+
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
+		heroBanner.setSession(session);
+		heroBanner.setImage(base64Image);
+
+		return heroBannerRepository.save(heroBanner);
 	}
 
-	public HeroBanner updateBanner(int id, HeroBanner banner) {
-		HeroBanner existingBanner = getBannerById(id);
+	public HeroBanner updateBanner(int id, HeroBanner banner, byte[] fileBytes) {
+		String base64Image = fileBytes != null && fileBytes.length > 0 ? Base64.getEncoder().encodeToString(fileBytes)
+				: null;
+		Optional<HeroBanner> optional = heroBannerRepository.findById(id);
+		if (optional.isPresent()) {
+			HeroBanner existingEntity = optional.get();
+			if (banner.getHeadLine() != null) {
+				existingEntity.setHeadLine(banner.getHeadLine());
+			}
+			if (banner.getSubHeadline() != null) {
+				existingEntity.setSubHeadline(banner.getSubHeadline());
+			}
 
-		if (banner.getImage() != null) {
-			existingBanner.setImage(banner.getImage());
+			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
+				existingEntity.setImage(base64Image);
+			}
+			return heroBannerRepository.save(existingEntity);
+		} else {
+			throw new IllegalArgumentException("HeroBanner not found with ID " + id);
 		}
-		if (banner.getHeadLine() != null) {
-			existingBanner.setHeadLine(banner.getHeadLine());
-		}
-		if (banner.getSubHeadline() != null) {
-			existingBanner.setSubHeadline(banner.getSubHeadline());
-		}
-		return heroBannerRepository.save(existingBanner);
 	}
 
 	public void deleteBanner(int id) {

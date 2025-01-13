@@ -1,8 +1,10 @@
 package com.example.livi.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.TechAppliedTech;
 import com.example.livi.service.TechAppliedTechService;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,15 +39,42 @@ public class TechAppliedTechController {
 	}
 	
 	@PostMapping("/{sessionId}")
-	public TechAppliedTech addTechAppliedTech(@RequestBody TechAppliedTech techAppliedTech, @PathVariable int id ) {
-		//TODO: process POST request
-		return techAppliedTechService.addTechAppliedTech(techAppliedTech, id);
+	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
+			@RequestParam("name") String name, 
+			@RequestParam("description") String description,
+			@PathVariable int sessionId) throws IOException {
+		try {
+			byte[] fileBytes = thumbnail.getBytes();
+			TechAppliedTech techAppliedTech = new TechAppliedTech();
+			techAppliedTech.setName(name);
+			techAppliedTech.setDescription(description);
+			TechAppliedTech savedEntity = techAppliedTechService.addTechAppliedTech(techAppliedTech, sessionId,
+					fileBytes);
+			return ResponseEntity.ok(savedEntity);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
-	
+
 	@PutMapping("/{id}")
-	public TechAppliedTech updateTechAppliedTech(@PathVariable int id, @RequestBody TechAppliedTech techAppliedTech) {
-		//TODO: process PUT request
-		return techAppliedTechService.updateTechAppliedTech(id, techAppliedTech);
+	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "description", required = false) String description,
+			@PathVariable int id) throws IOException {
+		try {
+			byte[] fileBytes = null;
+			if (thumbnail != null) {
+				fileBytes = thumbnail.getBytes();
+			}
+			TechAppliedTech techAppliedTech = new TechAppliedTech();
+			techAppliedTech.setDescription(description);
+			techAppliedTech.setName(name);
+			TechAppliedTech updatedEntity = techAppliedTechService.updateTechAppliedTech(id, techAppliedTech, fileBytes);
+
+			return ResponseEntity.ok(updatedEntity);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/{id}")

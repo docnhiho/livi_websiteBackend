@@ -1,11 +1,16 @@
 package com.example.livi.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.config.ScheduledTasksBeanDefinitionParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.HeroBanner;
 import com.example.livi.model.Session;
 import com.example.livi.service.HeroBannerService;
@@ -36,13 +41,43 @@ public class HeroBannerController {
 	}
 	
 	@PostMapping("{sessionId}")
-	public HeroBanner addBanner(@RequestBody HeroBanner banner, @PathVariable int sessionId) {
-		//TODO: process POST request
-		return heroBannerService.addSBanner(banner, sessionId);
+	public ResponseEntity<?> add(@RequestParam("image") MultipartFile image,
+			@RequestParam("headline") String headline, 
+			@RequestParam("subheadline") String subheadline,
+			@PathVariable int sessionId) throws IOException {
+		try {
+			byte[] fileBytes = image.getBytes();
+			HeroBanner heroBanner = new HeroBanner();
+			heroBanner.setHeadLine(headline);
+			heroBanner.setSubHeadline(subheadline);
+
+			HeroBanner savedEntity = heroBannerService.addSBanner(heroBanner, sessionId,
+					fileBytes);
+
+			return ResponseEntity.ok(savedEntity);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 	@PutMapping("/{id}")
-	public HeroBanner updateBanner(@PathVariable int id, @RequestBody HeroBanner banner) {
-		return heroBannerService.updateBanner(id, banner);
+	public ResponseEntity<?> update(@RequestParam(value = "image", required = false) MultipartFile image,
+			@RequestParam(value = "headline", required = false) String headline,
+			@RequestParam(value = "subheadlne", required = false) String subheadlne,
+			@PathVariable int id) throws IOException {
+		try {
+			byte[] fileBytes = null;
+			if (image != null) {
+				fileBytes = image.getBytes();
+			}
+			HeroBanner heroBanner = new HeroBanner();
+			heroBanner.setSubHeadline(subheadlne);
+			heroBanner.setHeadLine(headline);
+			HeroBanner updatedEntity = heroBannerService.updateBanner(id, heroBanner, fileBytes);
+
+			return ResponseEntity.ok(updatedEntity);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/{id}")

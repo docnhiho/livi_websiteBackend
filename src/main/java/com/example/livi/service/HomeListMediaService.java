@@ -1,9 +1,13 @@
 package com.example.livi.service;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.HomeListMedia;
 import com.example.livi.model.Session;
 import com.example.livi.repository.HomeListMediaRepository;
@@ -24,25 +28,33 @@ public class HomeListMediaService {
 		return homeListMediaRepository.findById(id).orElseThrow(() -> new RuntimeException("Page not found"));
 	}
 
-	public HomeListMedia addHomeListMedia(HomeListMedia homeListMedia, int sessionId) {
-		if (homeListMedia != null) {
-			Session session = sessionRepository.findById(sessionId)
-					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
-			homeListMedia.setSession(session);
-			return homeListMediaRepository.save(homeListMedia);
-		}
-		throw new IllegalArgumentException("Session cannot be null");
+	public HomeListMedia addHomeListMedia(HomeListMedia homeListMedia, int sessionId, byte[] fileBytes) {
+		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
+
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
+		homeListMedia.setSession(session);
+		homeListMedia.setImage(base64Image);
+
+		return homeListMediaRepository.save(homeListMedia);
 	}
 
-	public HomeListMedia updateHomeListMedia(int id, HomeListMedia homeListMedia) {
-		HomeListMedia homeListMedia2 = getHomeListMedia(id);
-		if (homeListMedia.getImage() != null) {
-			homeListMedia2.setImage(homeListMedia.getImage());
+	public HomeListMedia updateHomeListMedia(int id, HomeListMedia homeListMedia, byte[] fileBytes) {
+		String base64Image = fileBytes != null && fileBytes.length > 0 ? Base64.getEncoder().encodeToString(fileBytes)
+				: null;
+		Optional<HomeListMedia> optional = homeListMediaRepository.findById(id);
+		if (optional.isPresent()) {
+			HomeListMedia existingEntity = optional.get();
+			if (homeListMedia.getDescription() != null) {
+				existingEntity.setDescription(homeListMedia.getDescription());
+			}
+			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
+				existingEntity.setImage(base64Image);
+			}
+			return homeListMediaRepository.save(existingEntity);
+		} else {
+			throw new IllegalArgumentException("AboutAwardRecognition not found with ID " + id);
 		}
-		if (homeListMedia.getDescription() != null) {
-			homeListMedia2.setDescription(homeListMedia.getDescription());
-		}
-		return homeListMediaRepository.save(homeListMedia2);
 	}
 
 	public void deleteHomeListMedia(int id) {

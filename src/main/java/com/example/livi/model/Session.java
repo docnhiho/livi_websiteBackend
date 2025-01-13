@@ -19,9 +19,6 @@ public class Session {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-//	@Column(name = "Page_ID")
-//	private int pageId;
 	
 	@ManyToOne
 	@JoinColumn(name = "Page_ID", nullable = false)

@@ -1,10 +1,13 @@
 package com.example.livi.service;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.CTABanner;
 import com.example.livi.model.Session;
 import com.example.livi.repository.CTABannerRepository;
@@ -27,24 +30,31 @@ public class CTABannerService {
 		return ctaBannerRepository.findById(id).orElseThrow(() -> new RuntimeException("Page not found"));
 	}
 
-	public CTABanner addBanner(CTABanner ctaBanner, int sessionId) {
-		if (ctaBanner != null) {
-			Session session = sessionRepository.findById(sessionId)
-					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
-			ctaBanner.setSession(session);
-			return ctaBannerRepository.save(ctaBanner);
-		}
-		throw new IllegalArgumentException("Session cannot be null");
+	public CTABanner addBanner(CTABanner ctaBanner, int sessionId, byte[] fileBytes) {
+		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
+
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
+		ctaBanner.setSession(session);
+		ctaBanner.setCoverImage(base64Image);
+
+		return ctaBannerRepository.save(ctaBanner);
 	}
 	
-	public CTABanner updateBanner(int id, CTABanner ctaBanner) {
-		CTABanner ctaBanner2 = getBannerById(id);
-		
-		if(ctaBanner.getCoverImage() != null) {
-			ctaBanner2.setCoverImage(ctaBanner.getCoverImage());
+	public CTABanner updateBanner(int id, CTABanner ctaBanner, byte[] fileBytes) {
+		String base64Image = fileBytes != null && fileBytes.length > 0 ? Base64.getEncoder().encodeToString(fileBytes)
+				: null;
+		Optional<CTABanner> optional = ctaBannerRepository.findById(id);
+		if (optional.isPresent()) {
+			CTABanner existingEntity = optional.get();
+
+			if (base64Image != null && !base64Image.equals(existingEntity.getCoverImage())) {
+				existingEntity.setCoverImage(base64Image);
+			}
+			return ctaBannerRepository.save(existingEntity);
+		} else {
+			throw new IllegalArgumentException("AboutAwardRecognition not found with ID " + id);
 		}
-		return ctaBannerRepository.save(ctaBanner2);
-			
 	}
 	
 	public void deleteBanner(int id) {

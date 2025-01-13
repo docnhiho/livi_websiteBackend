@@ -1,18 +1,18 @@
 package com.example.livi.model;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "AboutAwardRecognition")
-public class AboutAwardRecognition {
+@Table(name = "CEOSetting")
+public class CEOSetting {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -21,27 +21,30 @@ public class AboutAwardRecognition {
 	@JoinColumn(name = "Session_ID", nullable = false)
 	private Session session;
 	
-	@Lob
-	@Column(name = "Thumbnail")
-	private String thumbnail;
+	@Column(name = "Image")
+	private String image;
 	
-	@Column(name = "Name")
-	private String name;
+	@Column(name = "Title_Tag")
+	private String titleTag;
 	
 	@Column(name = "Description")
 	private String description;
+	
+	@Column(name = "Slug")
+	private String slug;
 
-	public AboutAwardRecognition(int id, Session session, String thumbnail, String name, String description) {
+	public CEOSetting() {
+		super();
+	}
+
+	public CEOSetting(int id, Session session, String image, String titleTag, String description, String slug) {
 		super();
 		this.id = id;
 		this.session = session;
-		this.thumbnail = thumbnail;
-		this.name = name;
+		this.image = image;
+		this.titleTag = titleTag;
 		this.description = description;
-	}
-
-	public AboutAwardRecognition() {
-		super();
+		this.slug = slug;
 	}
 
 	public int getId() {
@@ -60,20 +63,20 @@ public class AboutAwardRecognition {
 		this.session = session;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
+	public String getImage() {
+		return image;
 	}
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitleTag() {
+		return titleTag;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitleTag(String titleTag) {
+		this.titleTag = titleTag;
 	}
 
 	public String getDescription() {
@@ -83,6 +86,15 @@ public class AboutAwardRecognition {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+
+
 	
 }

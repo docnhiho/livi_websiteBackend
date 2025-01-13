@@ -1,10 +1,13 @@
 package com.example.livi.service;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.Session;
 import com.example.livi.model.TechNews;
 import com.example.livi.repository.SessionRepository;
@@ -26,29 +29,36 @@ public class TechNewsService {
 		return techNewsRepository.findById(id).orElseThrow(() -> new RuntimeException("Page not found"));
 	}
 	
-	public TechNews addTechNews(TechNews techNews, int sessionId) {
-		if (techNews != null) {
-			Session session = sessionRepository.findById(sessionId)
-					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
-			techNews.setSession(session);
-			return techNewsRepository.save(techNews);
-		}
-		throw new IllegalArgumentException("Session cannot be null");
+	public TechNews addTechNews(TechNews techNews, int sessionId, byte[] fileBytes) {
+		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
+
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
+		techNews.setSession(session);
+		techNews.setThumbnail(base64Image);
+
+		return techNewsRepository.save(techNews);
 	}
 	
-	public TechNews updateTechNews(int id, TechNews techNews) {
-		TechNews techNews2 = gettNewsById(id);
-		if(techNews.getThumbnail() != null) {
-			techNews2.setThumbnail(techNews.getThumbnail());
+	public TechNews updateTechNews(int id, TechNews techNews, byte[] fileBytes) {
+		String base64Image = fileBytes != null && fileBytes.length > 0 ? Base64.getEncoder().encodeToString(fileBytes)
+				: null;
+		Optional<TechNews> optional = techNewsRepository.findById(id);
+		if (optional.isPresent()) {
+			TechNews existingEntity = optional.get();
+			if (techNews.getName() != null) {
+				existingEntity.setName(techNews.getName());
+			}
+			if (techNews.getDescription() != null) {
+				existingEntity.setDescription(techNews.getDescription());
+			}
+			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
+				existingEntity.setThumbnail(base64Image);
+			}
+			return techNewsRepository.save(existingEntity);
+		} else {
+			throw new IllegalArgumentException("AboutAwardRecognition not found with ID " + id);
 		}
-		if(techNews.getName() != null) {
-			techNews2.setName(techNews.getName());
-		}
-		if(techNews.getDescription() != null) {
-			techNews2.setDescription(techNews.getDescription());
-		}
-		
-		return techNewsRepository.save(techNews2);
 	}
 	
 	public void deleteTechNews(int id) {
