@@ -6,13 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "AboutAwardRecognition")
-public class AboutAwardRecognition {
+@Table(name = "AboutLiviLife")
+public class AboutLiviLife {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -21,26 +20,29 @@ public class AboutAwardRecognition {
 	@JoinColumn(name = "Session_ID", nullable = false)
 	private Session session;
 	
-	@Lob
-	@Column(name = "Thumbnail")
-	private String thumbnail;
+	@Column(name = "Image")
+	private String image;
 	
-	@Column(name = "Name")
-	private String name;
+	@Column(name = "Headline")
+	private String headLine;
 	
 	@Column(name = "Description")
 	private String description;
 
-	public AboutAwardRecognition(int id, Session session, String thumbnail, String name, String description) {
+	@Column(name = "Link")
+	private String link;
+
+	public AboutLiviLife(int id, Session session, String image, String headLine, String description, String link) {
 		super();
 		this.id = id;
 		this.session = session;
-		this.thumbnail = thumbnail;
-		this.name = name;
+		this.image = image;
+		this.headLine = headLine;
 		this.description = description;
+		this.link = link;
 	}
 
-	public AboutAwardRecognition() {
+	public AboutLiviLife() {
 		super();
 	}
 
@@ -60,20 +62,20 @@ public class AboutAwardRecognition {
 		this.session = session;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
+	public String getImage() {
+		return image;
 	}
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public String getName() {
-		return name;
+	public String getHeadLine() {
+		return headLine;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setHeadLine(String headLine) {
+		this.headLine = headLine;
 	}
 
 	public String getDescription() {
@@ -82,6 +84,14 @@ public class AboutAwardRecognition {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 	

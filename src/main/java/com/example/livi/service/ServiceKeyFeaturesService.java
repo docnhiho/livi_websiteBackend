@@ -1,10 +1,13 @@
 package com.example.livi.service;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.ServiceKeyFeatures;
 import com.example.livi.model.Session;
 import com.example.livi.repository.ServiceKeyFeaturesRepository;
@@ -26,28 +29,37 @@ public class ServiceKeyFeaturesService {
 		return serviceKeyFeaturesRepository.findById(id).orElseThrow(() -> new RuntimeException("Page not found"));
 	}
 
-	public ServiceKeyFeatures addServiceKeyFeatures(ServiceKeyFeatures serviceKeyFeatures, int sessionId) {
-		if (serviceKeyFeatures != null) {
-			Session session = sessionRepository.findById(sessionId)
-					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
-			serviceKeyFeatures.setSession(session);
-			return serviceKeyFeaturesRepository.save(serviceKeyFeatures);
-		}
-		throw new IllegalArgumentException("Session cannot be null");
+	public ServiceKeyFeatures addServiceKeyFeatures(ServiceKeyFeatures serviceKeyFeatures, int sessionId, byte[] fileBytes) {
+		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
+
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
+		serviceKeyFeatures.setSession(session);
+		serviceKeyFeatures.setThumbnail(base64Image);
+
+		return serviceKeyFeaturesRepository.save(serviceKeyFeatures);
 	}
 
-	public ServiceKeyFeatures updateServiceKeyFeatures(int id, ServiceKeyFeatures serviceKeyFeatures) {
-		ServiceKeyFeatures serviceKeyFeatures2 = getServiceKeyFeaturesById(id);
-		if (serviceKeyFeatures.getThumbnail() != null) {
-			serviceKeyFeatures2.setThumbnail(serviceKeyFeatures.getThumbnail());
+	public ServiceKeyFeatures updateServiceKeyFeatures(int id, ServiceKeyFeatures serviceKeyFeatures, byte[] fileBytes) {
+		String base64Image = fileBytes != null && fileBytes.length > 0 ? Base64.getEncoder().encodeToString(fileBytes)
+				: null;
+		Optional<ServiceKeyFeatures> optional = serviceKeyFeaturesRepository.findById(id);
+		if (optional.isPresent()) {
+			ServiceKeyFeatures existingEntity = optional.get();
+			if (serviceKeyFeatures.getName() != null) {
+				existingEntity.setName(serviceKeyFeatures.getName());
+			}
+			if (serviceKeyFeatures.getLink() != null) {
+				existingEntity.setLink(serviceKeyFeatures.getLink());
+			}
+
+			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
+				existingEntity.setThumbnail(base64Image);
+			}
+			return serviceKeyFeaturesRepository.save(existingEntity);
+		} else {
+			throw new IllegalArgumentException("AboutAwardRecognition not found with ID " + id);
 		}
-		if (serviceKeyFeatures.getName() != null) {
-			serviceKeyFeatures2.setName(serviceKeyFeatures.getName());
-		}
-		if (serviceKeyFeatures.getLink() != null) {
-			serviceKeyFeatures2.setLink(serviceKeyFeatures.getLink());
-		}
-		return serviceKeyFeaturesRepository.save(serviceKeyFeatures2);
 	}
 
 	public void deleteServiceKeyFeatures(int id) {
