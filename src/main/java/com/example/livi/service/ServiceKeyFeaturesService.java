@@ -52,7 +52,9 @@ public class ServiceKeyFeaturesService {
 			if (serviceKeyFeatures.getLink() != null) {
 				existingEntity.setLink(serviceKeyFeatures.getLink());
 			}
-
+			if (serviceKeyFeatures.getButtonText() != null) {
+				existingEntity.setButtonText(serviceKeyFeatures.getButtonText());
+			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);
 			}

@@ -38,16 +38,17 @@ public class ServiceKeyFeaturesController {
 	}
 	
 	@PostMapping("/{sessionId}")
-	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
+	public ResponseEntity<?> add(@RequestParam("Thumbnail") MultipartFile thumbnail,
 			@RequestParam("name") String name,
 			@RequestParam("link") String link, 
+			@RequestParam("ButtonText") String buttonText, 
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
 			ServiceKeyFeatures serviceKeyFeature = new ServiceKeyFeatures();
-	
 			serviceKeyFeature.setName(name);
 			serviceKeyFeature.setLink(link);
+			serviceKeyFeature.setButtonText(buttonText);
 			ServiceKeyFeatures savedEntity = serviceKeyFeatures.addServiceKeyFeatures(serviceKeyFeature, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -59,7 +60,9 @@ public class ServiceKeyFeaturesController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "link", required = false) String link, @PathVariable int id) throws IOException {
+			@RequestParam(value = "link", required = false) String link, 
+			@RequestParam(value = "ButtonText", required = false) String buttonText, 
+			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
 			if (thumbnail != null) {
@@ -67,7 +70,7 @@ public class ServiceKeyFeaturesController {
 			}
 			ServiceKeyFeatures serviceKeyFeature = new ServiceKeyFeatures();
 			serviceKeyFeature.setName(name);
-
+			serviceKeyFeature.setButtonText(buttonText);
 			serviceKeyFeature.setLink(link);
 			ServiceKeyFeatures updatedEntity = serviceKeyFeatures.updateServiceKeyFeatures(id, serviceKeyFeature, fileBytes);
 

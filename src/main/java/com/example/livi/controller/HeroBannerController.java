@@ -44,13 +44,16 @@ public class HeroBannerController {
 	public ResponseEntity<?> add(@RequestParam("image") MultipartFile image,
 			@RequestParam("headline") String headline, 
 			@RequestParam("subheadline") String subheadline,
+			@RequestParam("buttonText") String buttonText,
+			@RequestParam("Link") String link,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = image.getBytes();
 			HeroBanner heroBanner = new HeroBanner();
 			heroBanner.setHeadLine(headline);
 			heroBanner.setSubHeadline(subheadline);
-
+			heroBanner.setButtonText(buttonText);
+			heroBanner.setLink(link);
 			HeroBanner savedEntity = heroBannerService.addSBanner(heroBanner, sessionId,
 					fileBytes);
 
@@ -63,6 +66,9 @@ public class HeroBannerController {
 	public ResponseEntity<?> update(@RequestParam(value = "image", required = false) MultipartFile image,
 			@RequestParam(value = "headline", required = false) String headline,
 			@RequestParam(value = "subheadlne", required = false) String subheadlne,
+			@RequestParam(value = "buttonText", required = false) String buttonText,
+			@RequestParam(value = "Link", required = false) String link,
+
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -72,6 +78,8 @@ public class HeroBannerController {
 			HeroBanner heroBanner = new HeroBanner();
 			heroBanner.setSubHeadline(subheadlne);
 			heroBanner.setHeadLine(headline);
+			heroBanner.setLink(link);
+			heroBanner.setButtonText(buttonText);
 			HeroBanner updatedEntity = heroBannerService.updateBanner(id, heroBanner, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

@@ -1,14 +1,19 @@
 package com.example.livi.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.TechAward;
 import com.example.livi.service.TechAwardService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,15 +39,42 @@ public class TechAwardController {
 	}
 	
 	@PostMapping("/{sessionId}")
-	public TechAward addTechAward(@RequestBody TechAward techAward, @PathVariable int sessionId) {
-		//TODO: process POST request
-		return techAwardService.addTechAward(techAward, sessionId);
+	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
+			@RequestParam("name") String name, 
+			@RequestParam("description") String description,
+			@PathVariable int sessionId) throws IOException {
+		try {
+			byte[] fileBytes = thumbnail.getBytes();
+			TechAward techAward = new TechAward();
+			techAward.setName(name);
+			techAward.setDescription(description);
+			TechAward savedEntity = techAwardService.addTechAward(techAward, sessionId,
+					fileBytes);
+			return ResponseEntity.ok(savedEntity);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
-	
+
 	@PutMapping("/{id}")
-	public TechAward putMethodName(@PathVariable int id, @RequestBody TechAward techAward) {
-		//TODO: process PUT request
-		return techAwardService.updateTechAward(id, techAward);
+	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "description", required = false) String description,
+			@PathVariable int id) throws IOException {
+		try {
+			byte[] fileBytes = null;
+			if (thumbnail != null) {
+				fileBytes = thumbnail.getBytes();
+			}
+			TechAward techAward = new TechAward();
+			techAward.setDescription(description);
+			techAward.setName(name);
+			TechAward updatedEntity = techAwardService.updateTechAward(id, techAward, fileBytes);
+
+			return ResponseEntity.ok(updatedEntity);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/{id}")
