@@ -52,6 +52,9 @@ public class ContactService {
 		if (contact.getAddress() != null) {
 			contact2.setAddress(contact.getAddress());
 		}
+		if (contact.getMapLink() != null) {
+			contact2.setMapLink(contact.getMapLink());
+		}
 		return contactRepository.save(contact2);
 	}
 

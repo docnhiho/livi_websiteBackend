@@ -10,8 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "herobanner")
-public class HeroBanner {
+@Table(name = "HomeAboutUs")
+public class HomeAboutUs {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -24,32 +24,21 @@ public class HeroBanner {
 	private String image;
 	
 	@Column(name = "Headline")
-	private String headLine;
+	private String headline;
 	
 	@Column(name = "Subheadline")
 	private String subHeadline;
 
-	@Column(name = "ButtonText")
-	private String buttonText;
-	
-	@Column(name = "Link")
-	private String link;
-	
-	
-
-	public HeroBanner(int id, Session session, String image, String headLine, String subHeadline, String buttonText,
-			String link) {
+	public HomeAboutUs(int id, Session session, String image, String headline, String subHeadline) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.image = image;
-		this.headLine = headLine;
+		this.headline = headline;
 		this.subHeadline = subHeadline;
-		this.buttonText = buttonText;
-		this.link = link;
 	}
 
-	public HeroBanner() {
+	public HomeAboutUs() {
 		super();
 	}
 
@@ -77,12 +66,12 @@ public class HeroBanner {
 		this.image = image;
 	}
 
-	public String getHeadLine() {
-		return headLine;
+	public String getHeadline() {
+		return headline;
 	}
 
-	public void setHeadLine(String headLine) {
-		this.headLine = headLine;
+	public void setHeadline(String headline) {
+		this.headline = headline;
 	}
 
 	public String getSubHeadline() {
@@ -91,22 +80,6 @@ public class HeroBanner {
 
 	public void setSubHeadline(String subHeadline) {
 		this.subHeadline = subHeadline;
-	}
-
-	public String getButtonText() {
-		return buttonText;
-	}
-
-	public void setButtonText(String buttonText) {
-		this.buttonText = buttonText;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
 	}
 	
 	

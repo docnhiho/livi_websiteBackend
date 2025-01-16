@@ -28,14 +28,19 @@ public class Contact {
 	
 	@Column(name = "Address")
 	private String address;
+	
+	@Column(name = "MapLink")
+	private String mapLink;
 
-	public Contact(int id, Session session, String office, String phoneNumber, String address) {
+
+	public Contact(int id, Session session, String office, String phoneNumber, String address, String mapLink) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.office = office;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
+		this.mapLink = mapLink;
 	}
 
 	public Contact() {
@@ -81,7 +86,14 @@ public class Contact {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+	public String getMapLink() {
+		return mapLink;
+	}
+
+	public void setMapLink(String mapLink) {
+		this.mapLink = mapLink;
+	}
 	
 
 }

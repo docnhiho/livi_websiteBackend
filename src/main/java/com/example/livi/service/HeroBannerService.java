@@ -58,7 +58,12 @@ public class HeroBannerService {
 			if (banner.getSubHeadline() != null) {
 				existingEntity.setSubHeadline(banner.getSubHeadline());
 			}
-
+			if (banner.getLink() != null) {
+				existingEntity.setLink(banner.getLink());
+			}
+			if (banner.getButtonText() != null) {
+				existingEntity.setButtonText(banner.getButtonText());
+			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
 				existingEntity.setImage(base64Image);
 			}

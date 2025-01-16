@@ -28,14 +28,18 @@ public class ServiceKeyFeatures {
 	
 	@Column(name = "Link")
 	private String link;
+	
+	@Column(name = "ButtonText")
+	private String buttonText;
 
-	public ServiceKeyFeatures(int id, Session session, String thumbnail, String name, String link) {
+	public ServiceKeyFeatures(int id, Session session, String thumbnail, String name, String link, String buttonText) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.thumbnail = thumbnail;
 		this.name = name;
 		this.link = link;
+		this.buttonText = buttonText;
 	}
 
 	public ServiceKeyFeatures() {
@@ -80,6 +84,14 @@ public class ServiceKeyFeatures {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getButtonText() {
+		return buttonText;
+	}
+
+	public void setButtonText(String buttonText) {
+		this.buttonText = buttonText;
 	}
 	
 	
