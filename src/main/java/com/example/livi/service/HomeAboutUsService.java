@@ -49,13 +49,12 @@ public class HomeAboutUsService {
 			if (homeAboutUs.getSubHeadline() != null) {
 				existingEntity.setSubHeadline(homeAboutUs.getSubHeadline());
 			}
-
 			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
 				existingEntity.setImage(base64Image);
 			}
 			return homeAboutUsRepository.save(existingEntity);
 		} else {
-			throw new IllegalArgumentException("AboutAwardRecognition not found with ID " + id);
+			throw new IllegalArgumentException("homeAboutUs not found with ID " + id);
 		}
     }
     
