@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutAwardRecognition;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.AboutAwardRecognitionRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -19,10 +19,10 @@ public class AboutAwardRecognitionService {
 	@Autowired
 	private AboutAwardRecognitionRepository aboutAwardRecognitionRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public AboutAwardRecognitionService(AboutAwardRecognitionRepository aboutAwardRecognitionRepository,
-			SessionRepository sessionRepository) {
+			SectionRepository sessionRepository) {
 		super();
 		this.aboutAwardRecognitionRepository = aboutAwardRecognitionRepository;
 		this.sessionRepository = sessionRepository;
@@ -42,7 +42,7 @@ public class AboutAwardRecognitionService {
 			byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		aboutAwardRecognition.setSession(session);
 		aboutAwardRecognition.setThumbnail(base64Image);
@@ -64,6 +64,10 @@ public class AboutAwardRecognitionService {
 			if (aboutAwardRecognition.getDescription() != null
 					&& !aboutAwardRecognition.getDescription().equals(existingEntity.getDescription())) {
 				existingEntity.setDescription(aboutAwardRecognition.getDescription());
+			}
+			if (aboutAwardRecognition.getLang() != null
+					&& !aboutAwardRecognition.getLang().equals(existingEntity.getLang())) {
+				existingEntity.setLang(aboutAwardRecognition.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

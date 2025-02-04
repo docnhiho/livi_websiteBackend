@@ -14,8 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Session")
-public class Session {
+@Table(name = "Section")
+public class Section {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -24,18 +24,18 @@ public class Session {
 	@JoinColumn(name = "Page_ID", nullable = false)
 	private Page page;
 	
-	@OneToMany(mappedBy = "session")
-	@JsonIgnore
-	public List<HeroBanner> heroBanners;
-	
-	@OneToMany(mappedBy = "session")
-	@JsonIgnore
-	public List<Introduction> introduction;
-	
-	@OneToMany(mappedBy = "session")
-	@JsonIgnore
-	public List<CTABanner> ctaBanner;
-	
+//	@OneToMany(mappedBy = "section")
+//	@JsonIgnore
+//	public List<HeroBanner> heroBanners;
+//	
+//	@OneToMany(mappedBy = "section")
+//	@JsonIgnore
+//	public List<Introduction> introduction;
+//	
+//	@OneToMany(mappedBy = "section")
+//	@JsonIgnore
+//	public List<CTABanner> ctaBanner;
+//	
 	@Column(name = "Name")
 	private String name;
 
@@ -57,27 +57,30 @@ public class Session {
 	@Column(name = "Link")
 	private String link;
 	
-	public Session() {
+	@Column(name = "Lang")
+	private String lang;
+	
+	public Section() {
 		super();
 	}
 
-	public Session(int id, Page page, List<HeroBanner> heroBanners, List<Introduction> introduction,
-			List<CTABanner> ctaBanner, String name, String headLine, String subHeadline, String description,
-			String coverBanner, String buttonText, String link) {
+
+
+	public Section(int id, Page page,  String name, String headLine, String subHeadline, String description,
+			String coverBanner, String buttonText, String link, String lang) {
 		super();
 		this.id = id;
 		this.page = page;
-		this.heroBanners = heroBanners;
-		this.introduction = introduction;
-		this.ctaBanner = ctaBanner;
-		this.name = name;
 		this.headLine = headLine;
 		this.subHeadline = subHeadline;
 		this.description = description;
 		this.coverBanner = coverBanner;
 		this.buttonText = buttonText;
 		this.link = link;
+		this.lang = lang;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -95,29 +98,29 @@ public class Session {
 		this.page = page;
 	}
 
-	public List<HeroBanner> getHeroBanners() {
-		return heroBanners;
-	}
-
-	public void setHeroBanners(List<HeroBanner> heroBanners) {
-		this.heroBanners = heroBanners;
-	}
-
-	public List<Introduction> getIntroduction() {
-		return introduction;
-	}
-
-	public void setIntroduction(List<Introduction> introduction) {
-		this.introduction = introduction;
-	}
-
-	public List<CTABanner> getCtaBanner() {
-		return ctaBanner;
-	}
-
-	public void setCtaBanner(List<CTABanner> ctaBanner) {
-		this.ctaBanner = ctaBanner;
-	}
+//	public List<HeroBanner> getHeroBanners() {
+//		return heroBanners;
+//	}
+//
+//	public void setHeroBanners(List<HeroBanner> heroBanners) {
+//		this.heroBanners = heroBanners;
+//	}
+//
+//	public List<Introduction> getIntroduction() {
+//		return introduction;
+//	}
+//
+//	public void setIntroduction(List<Introduction> introduction) {
+//		this.introduction = introduction;
+//	}
+//
+//	public List<CTABanner> getCtaBanner() {
+//		return ctaBanner;
+//	}
+//
+//	public void setCtaBanner(List<CTABanner> ctaBanner) {
+//		this.ctaBanner = ctaBanner;
+//	}
 
 	public String getName() {
 		return name;
@@ -173,6 +176,14 @@ public class Session {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 

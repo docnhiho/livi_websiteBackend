@@ -18,7 +18,7 @@ public class ServiceDocumentBanner {
 
 	@ManyToOne
 	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	private Section session;
 
 	@Column(name = "Langguage_Name")
 	private String languageName;
@@ -26,7 +26,7 @@ public class ServiceDocumentBanner {
 	@Column(name = "Attachement")
 	private String attachement;
 
-	public ServiceDocumentBanner(int id, Session session, String languageName, String attachement) {
+	public ServiceDocumentBanner(int id, Section session, String languageName, String attachement) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -46,11 +46,11 @@ public class ServiceDocumentBanner {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

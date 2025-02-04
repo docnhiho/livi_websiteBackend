@@ -2,14 +2,14 @@ package com.example.livi.service;
 
 import java.util.List;
 
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 
 public interface SessionInterface {
 	
-	public List<Session> getAllSessions();
-	public Session addSession(Session session, int pageId);
-	public Session getSessionById(int id);
-	public Session updateSession(int id, Session session);
+	public List<Section> getAllSessions();
+	public Section addSession(Section session, int pageId);
+	public Section getSessionById(int id);
+	public Section updateSession(int id, Section session);
 	public void deleteSession(int id);
 	
 	

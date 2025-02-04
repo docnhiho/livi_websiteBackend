@@ -17,8 +17,8 @@ public class ServiceListing {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Service_Name")
 	private String name;
@@ -34,9 +34,12 @@ public class ServiceListing {
 	
 	@Column(name = "Create_Date")
 	private String createDate;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public ServiceListing(int id, Session session, String name, String link, String description, String createBy,
-			String createDate) {
+	public ServiceListing(int id, Section session, String name, String link, String description, String createBy,
+			String createDate, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -45,6 +48,15 @@ public class ServiceListing {
 		this.description = description;
 		this.createBy = createBy;
 		this.createDate = createDate;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public ServiceListing() {
@@ -59,11 +71,11 @@ public class ServiceListing {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

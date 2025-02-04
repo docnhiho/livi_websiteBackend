@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutLiviLife;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechKeyCapability;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechKeyCapabilityRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class TechKeyCapabilityService {
 	@Autowired
 	private TechKeyCapabilityRepository techKeyCapabilityRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<TechKeyCapability> getTechKeyCapabilities(){
 		return techKeyCapabilityRepository.findAll();
@@ -32,7 +32,7 @@ public class TechKeyCapabilityService {
 	public TechKeyCapability addTechKeyCapability(TechKeyCapability techKeyCapability, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		techKeyCapability.setSession(session);
 		techKeyCapability.setThumbnail(base64Image);
@@ -57,6 +57,9 @@ public class TechKeyCapabilityService {
 			}
 			if (techKeyCapability.getLink() != null) {
 				existingEntity.setLink(techKeyCapability.getLink());
+			}
+			if (techKeyCapability.getLang() != null) {
+				existingEntity.setLang(techKeyCapability.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

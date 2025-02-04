@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.AboutRelatedNew;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.service.AboutRelatedNewService;
 
 @RestController
@@ -40,13 +40,16 @@ public class AboutRelatedNewController {
 	
 	@PostMapping("{sessionId}")
 	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
-			@RequestParam("name") String name, @RequestParam("description") String description,
+			@RequestParam("name") String name, 
+			@RequestParam("description") String description,
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
 			AboutRelatedNew aboutRelatedNew = new AboutRelatedNew();
 			aboutRelatedNew.setDescription(description);
 			aboutRelatedNew.setName(name);
+			aboutRelatedNew.setLang(lang);
 			AboutRelatedNew savedEntity = aboutRelatedNewService.addAboutRelatedNew(aboutRelatedNew, sessionId,
 					fileBytes);
 
@@ -60,6 +63,7 @@ public class AboutRelatedNewController {
 	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -69,6 +73,8 @@ public class AboutRelatedNewController {
 			AboutRelatedNew aboutRelatedNew = new AboutRelatedNew();
 			aboutRelatedNew.setDescription(description);
 			aboutRelatedNew.setName(name);
+			aboutRelatedNew.setLang(lang);
+
 			AboutRelatedNew updatedEntity = aboutRelatedNewService.update(id, aboutRelatedNew, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

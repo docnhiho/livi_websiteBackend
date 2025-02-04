@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutLiviLife;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechNews;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechNewsRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class TechNewsService {
 	@Autowired
 	private TechNewsRepository techNewsRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<TechNews> getTechNews(){
 		return techNewsRepository.findAll();
@@ -32,7 +32,7 @@ public class TechNewsService {
 	public TechNews addTechNews(TechNews techNews, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		techNews.setSession(session);
 		techNews.setThumbnail(base64Image);
@@ -51,6 +51,9 @@ public class TechNewsService {
 			}
 			if (techNews.getDescription() != null) {
 				existingEntity.setDescription(techNews.getDescription());
+			}
+			if (techNews.getLang() != null) {
+				existingEntity.setLang(techNews.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.MediaType;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.MediaTypeRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class MediaTypeService {
@@ -16,7 +16,7 @@ public class MediaTypeService {
 	@Autowired
 	private MediaTypeRepository mediaTypeRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<MediaType> getMediaTypes(){
 		return mediaTypeRepository.findAll();
@@ -28,7 +28,7 @@ public class MediaTypeService {
 	
 	public MediaType addMediaType(MediaType mediaType, int sessionId) {
 		if (mediaType != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			mediaType.setSession(session);
 			return mediaTypeRepository.save(mediaType);
@@ -46,6 +46,9 @@ public class MediaTypeService {
 		}
 		if(mediaType.getNote() != null) {
 			mediaType2.setNote(mediaType.getNote());
+		}
+		if(mediaType.getLang() != null) {
+			mediaType2.setLang(mediaType.getLang());
 		}
 		return mediaTypeRepository.save(mediaType2);
 	}

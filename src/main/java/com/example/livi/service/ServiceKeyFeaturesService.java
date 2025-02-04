@@ -3,15 +3,12 @@ package com.example.livi.service;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.ServiceKeyFeatures;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceKeyFeaturesRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceKeyFeaturesService {
@@ -19,7 +16,7 @@ public class ServiceKeyFeaturesService {
 	@Autowired
 	private ServiceKeyFeaturesRepository serviceKeyFeaturesRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<ServiceKeyFeatures> getServiceKeyFeatures() {
 		return serviceKeyFeaturesRepository.findAll();
@@ -32,7 +29,7 @@ public class ServiceKeyFeaturesService {
 	public ServiceKeyFeatures addServiceKeyFeatures(ServiceKeyFeatures serviceKeyFeatures, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		serviceKeyFeatures.setSession(session);
 		serviceKeyFeatures.setThumbnail(base64Image);
@@ -54,6 +51,9 @@ public class ServiceKeyFeaturesService {
 			}
 			if (serviceKeyFeatures.getButtonText() != null) {
 				existingEntity.setButtonText(serviceKeyFeatures.getButtonText());
+			}
+			if (serviceKeyFeatures.getLang() != null) {
+				existingEntity.setLang(serviceKeyFeatures.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

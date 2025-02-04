@@ -15,9 +15,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.livi.model.DocumentBanner;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.DocumentBannerRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class DocumentBannerService {
@@ -27,7 +27,7 @@ public class DocumentBannerService {
 	@Autowired
 	private DocumentBannerRepository documentBannerRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<DocumentBanner> getDocumentBanners(){
 		return documentBannerRepository.findAll();
@@ -39,7 +39,7 @@ public class DocumentBannerService {
 	
     public DocumentBanner uploadFile(MultipartFile file, int sessionId, String language) throws IOException {
         // Kiểm tra sessionId có tồn tại trong cơ sở dữ liệu không
-        Session session = sessionRepository.findById(sessionId)
+        Section session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new RuntimeException("Session không tồn tại với id: " + sessionId));
 
         // Tạo tên file duy nhất

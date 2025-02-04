@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.HomeAboutUs;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.HomeAboutUsRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 
 @Service
@@ -17,7 +17,7 @@ public class HomeAboutUsService {
 	@Autowired
 	private HomeAboutUsRepository homeAboutUsRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<HomeAboutUs> getHomeAboutUs(){
 		return homeAboutUsRepository.findAll();
@@ -29,7 +29,7 @@ public class HomeAboutUsService {
 	
 	public HomeAboutUs addHomeAboutUs(HomeAboutUs homeAboutUs, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		homeAboutUs.setSession(session);
 		homeAboutUs.setImage(base64Image);
@@ -48,6 +48,15 @@ public class HomeAboutUsService {
 			}
 			if (homeAboutUs.getSubHeadline() != null) {
 				existingEntity.setSubHeadline(homeAboutUs.getSubHeadline());
+			}
+			if (homeAboutUs.getButtonLink() != null) {
+				existingEntity.setButtonLink(homeAboutUs.getButtonLink());
+			}
+			if (homeAboutUs.getLink() != null) {
+				existingEntity.setLink(homeAboutUs.getLink());
+			}
+			if (homeAboutUs.getLang() != null) {
+				existingEntity.setLang(homeAboutUs.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
 				existingEntity.setImage(base64Image);

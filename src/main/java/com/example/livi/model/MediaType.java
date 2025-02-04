@@ -22,8 +22,8 @@ public class MediaType {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@OneToMany(mappedBy = "mediaType")
 	@JsonIgnore
@@ -38,9 +38,12 @@ public class MediaType {
 	@Column(name = "Note")
 	private String note;
 
-
+	@Column(name = "Lang")
+	private String lang;
 	
-	public MediaType(int id, Session session, List<MediaList> mediaLists, String name, String type, String note) {
+	
+	public MediaType(int id, Section session, List<MediaList> mediaLists, String name, String type, String note,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -48,10 +51,19 @@ public class MediaType {
 		this.name = name;
 		this.type = type;
 		this.note = note;
+		this.lang = lang;
 	}
 
 	public MediaType() {
 		super();
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -62,11 +74,11 @@ public class MediaType {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

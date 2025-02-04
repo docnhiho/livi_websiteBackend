@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.Introduction;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.IntroductionRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 
 @Service
@@ -17,7 +17,7 @@ public class IntroductionService {
 	@Autowired
 	private IntroductionRepository introductionRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<Introduction> getAllIntroductions(){
 		return introductionRepository.findAll();
@@ -29,7 +29,7 @@ public class IntroductionService {
 	
 	public Introduction addIntroduction(Introduction introduction, int sessionId) {
 		if (introduction != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			introduction.setSession(session);
 			return introductionRepository.save(introduction);
@@ -45,6 +45,9 @@ public class IntroductionService {
 		}
 		if(introduction.getDescription() != null) {
 			introduction2.setDescription(introduction.getDescription());
+		}
+		if(introduction.getLang() != null) {
+			introduction2.setLang(introduction.getLang());
 		}
 		return introductionRepository.save(introduction2);
 		

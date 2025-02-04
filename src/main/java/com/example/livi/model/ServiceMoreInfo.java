@@ -17,8 +17,8 @@ public class ServiceMoreInfo {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Thumbnail")
 	private String thumbnail;
@@ -29,13 +29,26 @@ public class ServiceMoreInfo {
 	@Column(name = "Subheadline")
 	private String subHeadline;
 
-	public ServiceMoreInfo(int id, Session session, String thumbnail, String headline, String subHeadline) {
+	@Column(name = "Lang")
+	private String lang;
+
+	public ServiceMoreInfo(int id, Section session, String thumbnail, String headline, String subHeadline,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.thumbnail = thumbnail;
 		this.headline = headline;
 		this.subHeadline = subHeadline;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public ServiceMoreInfo() {
@@ -50,11 +63,11 @@ public class ServiceMoreInfo {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.livi.model.HeroBanner;
 import com.example.livi.model.HomeListService;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.HeroBannerRepository;
 import com.example.livi.repository.HomeListServiceRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class HomeListServiceService {
 	@Autowired
 	private HomeListServiceRepository homeListServiceRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 
 	public List<HomeListService> getHomeListServices() {
@@ -30,7 +30,7 @@ public class HomeListServiceService {
 
 	public HomeListService addHomeListService(HomeListService homeListService, int sessionId) {
 		if (homeListService != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			homeListService.setSession(session);
 			return homeListServiceRepository.save(homeListService);
@@ -47,8 +47,8 @@ public class HomeListServiceService {
 		if (homeListService.getHeroBanner() != null) {
 			homeListService2.setHeroBanner(homeListService.getHeroBanner());
 		}
-		if (homeListService.getTechNews() != null) {
-			homeListService2.setTechNews(homeListService.getTechNews());
+		if (homeListService.getMediaList() != null) {
+			homeListService2.setMediaList(homeListService.getMediaList());
 		}
 		return homeListServiceRepository.save(homeListService2);
 	}

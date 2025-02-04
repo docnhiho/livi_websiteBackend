@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechListing;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechListingRepository;
 
 @Service
@@ -16,7 +16,7 @@ public class TechListingService {
 	@Autowired
 	private TechListingRepository techListingRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<TechListing> geTechListing(){
 		return techListingRepository.findAll();
@@ -28,7 +28,7 @@ public class TechListingService {
 	
 	public TechListing addListing(TechListing techListing, int sessionId) {
 		if (techListing != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			techListing.setSession(session);
 			return techListingRepository.save(techListing);
@@ -54,9 +54,11 @@ public class TechListingService {
 		if(techListing.getCreatedBy() != null) {
 			techListing2.setCreatedBy(techListing.getCreatedBy());
 		}
-		
 		if(techListing.getCreatedDate() != null) {
 			techListing2.setCreatedDate(techListing.getCreatedDate());
+		}
+		if(techListing.getLang() != null) {
+			techListing2.setLang(techListing.getLang());
 		}
 		return techListingRepository.save(techListing2);
 	}

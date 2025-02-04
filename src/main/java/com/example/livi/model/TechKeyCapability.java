@@ -17,8 +17,8 @@ public class TechKeyCapability {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Headline")
 	private String headline;
@@ -34,13 +34,16 @@ public class TechKeyCapability {
 
 	@Column(name = "Link")
 	private String link;
+	
+	@Column(name = "Lang")
+	private String lang;
 
 	public TechKeyCapability() {
 		super();
 	}
 
-	public TechKeyCapability(int id, Session session, String headline, String description, String thumbnail,
-			String buttonText, String link) {
+	public TechKeyCapability(int id, Section session, String headline, String description, String thumbnail,
+			String buttonText, String link, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -49,6 +52,15 @@ public class TechKeyCapability {
 		this.thumbnail = thumbnail;
 		this.buttonText = buttonText;
 		this.link = link;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -59,11 +71,11 @@ public class TechKeyCapability {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

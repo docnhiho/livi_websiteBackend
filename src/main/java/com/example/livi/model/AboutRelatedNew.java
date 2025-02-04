@@ -17,8 +17,8 @@ public class AboutRelatedNew {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Thumbnail")
 	private String thumbnail;
@@ -29,17 +29,29 @@ public class AboutRelatedNew {
 	@Column(name = "Description")
 	private String description;
 
-	public AboutRelatedNew(int id, Session session, String thumbnail, String name, String description) {
+	@Column(name = "Lang")
+	private String lang;
+
+	public AboutRelatedNew(int id, Section session, String thumbnail, String name, String description, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.thumbnail = thumbnail;
 		this.name = name;
 		this.description = description;
+		this.lang = lang;
 	}
 
 	public AboutRelatedNew() {
 		super();
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -50,11 +62,11 @@ public class AboutRelatedNew {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

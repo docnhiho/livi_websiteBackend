@@ -42,12 +42,14 @@ public class ServiceIntrodictionController {
 	public ResponseEntity<?> add(@RequestParam("icon_display") MultipartFile icon,
 			@RequestParam("headline") String headline,
 			@RequestParam("description") String description,
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = icon.getBytes();
 			ServiceIntroduction serviceIntroduction = new ServiceIntroduction();
 			serviceIntroduction.setHeadline(headline);
 			serviceIntroduction.setDescription(description);
+			serviceIntroduction.setLang(lang);
 			ServiceIntroduction savedEntity = serviceIntrodictionService.addServiceIntroduction(serviceIntroduction, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -60,6 +62,7 @@ public class ServiceIntrodictionController {
 	public ResponseEntity<?> update(@RequestParam(value = "icon_display", required = false) MultipartFile icon,
 			@RequestParam(value = "headline", required = false) String headline,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -69,6 +72,7 @@ public class ServiceIntrodictionController {
 			ServiceIntroduction serviceIntroduction = new ServiceIntroduction();
 			serviceIntroduction.setDescription(description);
 			serviceIntroduction.setHeadline(headline);
+			serviceIntroduction.setLang(lang);
 			ServiceIntroduction updatedEntity = serviceIntrodictionService.updateServiceIntroduction(id, serviceIntroduction, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

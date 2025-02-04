@@ -36,7 +36,9 @@ public class CTABannerController {
 	}
 
 	@PostMapping("/{sessionId}")
-	public ResponseEntity<?> add(@RequestParam("coverImage") MultipartFile coverImage, @PathVariable int sessionId)
+	public ResponseEntity<?> add(@RequestParam("coverImage") MultipartFile coverImage, 
+			@RequestParam("lang") String lang,					
+			@PathVariable int sessionId)
 			throws IOException {
 		try {
 			byte[] fileBytes = coverImage.getBytes();
@@ -51,6 +53,7 @@ public class CTABannerController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestParam(value = "coverImage", required = false) MultipartFile coverImage,
+			@RequestParam(value = "lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -58,6 +61,7 @@ public class CTABannerController {
 				fileBytes = coverImage.getBytes();
 			}
 			CTABanner ctaBanner = new CTABanner();
+			ctaBanner.setLang(lang);
 			CTABanner updatedEntity = ctaBannerService.updateBanner(id, ctaBanner, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

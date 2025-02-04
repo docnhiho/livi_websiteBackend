@@ -18,7 +18,7 @@ public class DocumentBanner {
 	
 	@ManyToOne
 	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	private Section session;
 	
 	@Column(name = "Attachement")
 	private String attachement;
@@ -38,7 +38,7 @@ public class DocumentBanner {
 
 
 
-	public DocumentBanner(int id, Session session, String attachement, String path, String language) {
+	public DocumentBanner(int id, Section session, String attachement, String path, String language) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -61,13 +61,13 @@ public class DocumentBanner {
 
 
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
 
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

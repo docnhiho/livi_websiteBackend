@@ -42,12 +42,14 @@ public class TechAwardController {
 	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
 			@RequestParam("name") String name, 
 			@RequestParam("description") String description,
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
 			TechAward techAward = new TechAward();
 			techAward.setName(name);
 			techAward.setDescription(description);
+			techAward.setLang(lang);
 			TechAward savedEntity = techAwardService.addTechAward(techAward, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -60,6 +62,7 @@ public class TechAwardController {
 	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -69,6 +72,7 @@ public class TechAwardController {
 			TechAward techAward = new TechAward();
 			techAward.setDescription(description);
 			techAward.setName(name);
+			techAward.setLang(lang);
 			TechAward updatedEntity = techAwardService.updateTechAward(id, techAward, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

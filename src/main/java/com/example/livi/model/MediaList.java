@@ -18,8 +18,8 @@ public class MediaList {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@ManyToOne
 	@JoinColumn(name = "Type_ID", nullable = false)
@@ -30,18 +30,37 @@ public class MediaList {
 	
 	@Column(name = "Link")
 	private String link;
+	
+	@Column(name = "SuggestSession")
+	private String suggestSession;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public MediaList(int id, Session session, MediaType mediaType, String title, String link) {
+	
+
+	public MediaList(int id, Section session, MediaType mediaType, String title, String link, String suggestSession,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.mediaType = mediaType;
 		this.title = title;
 		this.link = link;
+		this.suggestSession = suggestSession;
+		this.lang = lang;
 	}
 
 	public MediaList() {
 		super();
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -52,11 +71,11 @@ public class MediaList {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 
@@ -82,6 +101,14 @@ public class MediaList {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getSuggestSession() {
+		return suggestSession;
+	}
+
+	public void setSuggestSession(String suggestSession) {
+		this.suggestSession = suggestSession;
 	}
 	
 	

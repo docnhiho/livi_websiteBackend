@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.ServiceDocumentBanner;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceDocumentBannerRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceDocumentBannerService {
 	@Autowired
 	private ServiceDocumentBannerRepository serviceDocumentBannerRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<ServiceDocumentBanner> getServiceDocumentBanner(){
 		return serviceDocumentBannerRepository.findAll();
@@ -27,7 +27,7 @@ public class ServiceDocumentBannerService {
 	
 	public ServiceDocumentBanner addServiceDocumentBanner(ServiceDocumentBanner serviceDocumentBanner, int sessionId) {
 		if (serviceDocumentBanner != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			serviceDocumentBanner.setSession(session);
 			return serviceDocumentBannerRepository.save(serviceDocumentBanner);

@@ -7,18 +7,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.ServiceMoreInfo;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceMoreInfoRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceMoreInfoSerivce {
 	@Autowired
 	private ServiceMoreInfoRepository serviceMoreInfoRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<ServiceMoreInfo> getServiceMoreInfo(){
 		return serviceMoreInfoRepository.findAll();
@@ -31,7 +30,7 @@ public class ServiceMoreInfoSerivce {
 	public ServiceMoreInfo addServiceMoreInfo(ServiceMoreInfo serviceMoreInfo, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		serviceMoreInfo.setSession(session);
 		serviceMoreInfo.setThumbnail(base64Image);
@@ -50,6 +49,9 @@ public class ServiceMoreInfoSerivce {
 			}
 			if (serviceMoreInfo.getSubHeadline() != null) {
 				existingEntity.setSubHeadline(serviceMoreInfo.getSubHeadline());
+			}
+			if (serviceMoreInfo.getLang() != null) {
+				existingEntity.setLang(serviceMoreInfo.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

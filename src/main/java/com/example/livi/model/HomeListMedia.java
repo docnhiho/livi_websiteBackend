@@ -17,25 +17,37 @@ public class HomeListMedia {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Image")
 	private String image;
 	
 	@Column(name = "Description")
 	private String description;
-
+	
+	@Column(name = "Lang")
+	private String lang;
+	
 	public HomeListMedia() {
 		super();
 	}
-
-	public HomeListMedia(int id, Session session, String image, String description) {
+	
+	public HomeListMedia(int id, Section session, String image, String description, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.image = image;
 		this.description = description;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -46,11 +58,11 @@ public class HomeListMedia {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

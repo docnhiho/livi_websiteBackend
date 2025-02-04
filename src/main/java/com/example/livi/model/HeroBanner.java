@@ -17,8 +17,8 @@ public class HeroBanner {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Image")
 	private String image;
@@ -34,11 +34,12 @@ public class HeroBanner {
 	
 	@Column(name = "Link")
 	private String link;
-	
+	@Column(name = "Lang")
+	private String lang;
 	
 
-	public HeroBanner(int id, Session session, String image, String headLine, String subHeadline, String buttonText,
-			String link) {
+	public HeroBanner(int id, Section session, String image, String headLine, String subHeadline, String buttonText,
+			String link, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -47,6 +48,15 @@ public class HeroBanner {
 		this.subHeadline = subHeadline;
 		this.buttonText = buttonText;
 		this.link = link;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public HeroBanner() {
@@ -61,11 +71,11 @@ public class HeroBanner {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

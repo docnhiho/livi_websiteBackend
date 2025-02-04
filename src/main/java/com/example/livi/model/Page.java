@@ -25,12 +25,12 @@ public class Page {
 
 	@OneToMany(mappedBy = "page")
 	@JsonIgnore
-	public List<Session> sessions;
+	public List<Section> sessions;
 
 	
 
 
-	public Page(int id, String name, List<Session> sessions) {
+	public Page(int id, String name, List<Section> sessions) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -63,12 +63,12 @@ public class Page {
 	}
 
 
-	public List<Session> getSessions() {
+	public List<Section> getSessions() {
 		return sessions;
 	}
 
 
-	public void setSessions(List<Session> sessions) {
+	public void setSessions(List<Section> sessions) {
 		this.sessions = sessions;
 	}
 	

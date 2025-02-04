@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.livi.model.ServiceDevelopmentProcess;
-import com.example.livi.model.Session;
 import com.example.livi.service.ServiceDevelopmentProcessService;
 
 @RestController

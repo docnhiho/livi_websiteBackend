@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechAward;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechAwardRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class TechAwardService {
 	private TechAwardRepository techAwardRepository;
 	@Autowired
 	
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<TechAward> geTechAwards(){
 		return techAwardRepository.findAll();
@@ -32,7 +32,7 @@ public class TechAwardService {
 	public TechAward addTechAward(TechAward techAward, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		techAward.setSession(session);
 		techAward.setThumbnail(base64Image);
@@ -49,8 +49,8 @@ public class TechAwardService {
 			if (techAward.getName() != null) {
 				existingEntity.setName(techAward.getName());
 			}
-			if (techAward.getName() != null) {
-				existingEntity.setName(techAward.getName());
+			if (techAward.getDescription() != null) {
+				existingEntity.setDescription(techAward.getDescription());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

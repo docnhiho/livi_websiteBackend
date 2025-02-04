@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/testlisting")
+@RequestMapping("/techlisting")
 public class TechListingController {
 
 	@Autowired

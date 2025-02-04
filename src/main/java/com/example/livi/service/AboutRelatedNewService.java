@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.AboutRelatedNew;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.AboutRelatedNewRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class AboutRelatedNewService {
 	@Autowired
 	private AboutRelatedNewRepository aboutRelatedNewRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 
 
@@ -33,7 +33,7 @@ public class AboutRelatedNewService {
 	public AboutRelatedNew addAboutRelatedNew(AboutRelatedNew aboutRelatedNew, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		aboutRelatedNew.setSession(session);
 		aboutRelatedNew.setThumbnail(base64Image);
@@ -53,7 +53,9 @@ public class AboutRelatedNewService {
 			if (aboutRelatedNew.getDescription() != null) {
 				existingEntity.setDescription(aboutRelatedNew.getDescription());
 			}
-
+			if (aboutRelatedNew.getLang() != null) {
+				existingEntity.setLang(aboutRelatedNew.getLang());
+			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);
 			}

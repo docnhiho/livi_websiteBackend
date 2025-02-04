@@ -17,8 +17,8 @@ public class Contact {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Office")
 	private String office;
@@ -31,9 +31,13 @@ public class Contact {
 	
 	@Column(name = "MapLink")
 	private String mapLink;
+	
+	@Column(name = "Lang")
+	private String lang;
 
 
-	public Contact(int id, Session session, String office, String phoneNumber, String address, String mapLink) {
+	public Contact(int id, Section session, String office, String phoneNumber, String address, String mapLink,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -41,6 +45,15 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.mapLink = mapLink;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public Contact() {
@@ -55,11 +68,11 @@ public class Contact {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

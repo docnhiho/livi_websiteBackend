@@ -37,12 +37,18 @@ public class HomeAboutUsController {
 	public ResponseEntity<?> add(@RequestParam("image") MultipartFile image,
 			@RequestParam("headline") String headline, 
 			@RequestParam("subheadline") String subheadline,
+			@RequestParam("ButtonLink") String buttonLink,
+			@RequestParam("Link") String link,
+			@RequestParam("Lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = image.getBytes();
 			HomeAboutUs homeAboutUs = new HomeAboutUs();
 			homeAboutUs.setHeadline(headline);
 			homeAboutUs.setSubHeadline(subheadline);
+			homeAboutUs.setButtonLink(buttonLink);
+			homeAboutUs.setLang(lang);
+			homeAboutUs.setLink(link);
 			HomeAboutUs savedEntity = homeAboutUsService.addHomeAboutUs(homeAboutUs, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -55,6 +61,10 @@ public class HomeAboutUsController {
 	public ResponseEntity<?> update(@RequestParam(value = "image", required = false) MultipartFile image,
 			@RequestParam(value = "headline", required = false) String headline,
 			@RequestParam(value = "subheadline", required = false) String subheadline,
+			@RequestParam(value = "ButtonLink", required = false) String ButtonLink,
+			@RequestParam(value = "Lang", required = false) String lang,
+			@RequestParam(value = "Link", required = false) String link,
+
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -64,6 +74,9 @@ public class HomeAboutUsController {
 			HomeAboutUs homeAboutUs = new HomeAboutUs();
 			homeAboutUs.setSubHeadline(subheadline);
 			homeAboutUs.setHeadline(headline);
+			homeAboutUs.setButtonLink(ButtonLink);
+			homeAboutUs.setLink(link);
+			homeAboutUs.setLang(lang);
 			HomeAboutUs updatedEntity = homeAboutUsService.updateHomeAboutUs(id, homeAboutUs, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

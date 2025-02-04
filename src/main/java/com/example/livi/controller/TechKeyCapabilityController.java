@@ -44,7 +44,7 @@ public class TechKeyCapabilityController {
 			@RequestParam("description") String description,
 			@RequestParam("Button_Text") String buttonText,
 			@RequestParam("link") String link,
-
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
@@ -53,6 +53,7 @@ public class TechKeyCapabilityController {
 			techKeyCapability.setDescription(description);
 			techKeyCapability.setLink(link);
 			techKeyCapability.setButtonText(buttonText);
+			techKeyCapability.setLang(lang);
 			TechKeyCapability savedEntity = techKeyCapabilityService.addTechKeyCapability(techKeyCapability, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -66,6 +67,7 @@ public class TechKeyCapabilityController {
 			@RequestParam(value = "headline", required = false) String headline,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "link", required = false) String link, 
+			@RequestParam(value = "lang", required = false) String lang, 
 			@RequestParam(value = "Button_Text", required = false) String buttonText, 
 
 			@PathVariable int id) throws IOException {
@@ -79,6 +81,7 @@ public class TechKeyCapabilityController {
 			techKeyCapability.setHeadline(headline);
 			techKeyCapability.setLink(link);
 			techKeyCapability.setButtonText(buttonText);
+			techKeyCapability.setLang(lang);
 			TechKeyCapability updatedEntity = techKeyCapabilityService.updateTechKeyCapability(id, techKeyCapability, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

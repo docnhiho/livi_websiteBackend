@@ -18,8 +18,8 @@ public class CEOSetting {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Image")
 	private String image;
@@ -32,12 +32,16 @@ public class CEOSetting {
 	
 	@Column(name = "Slug")
 	private String slug;
+	@Column(name = "Lang")
+	private String lang;
+
 
 	public CEOSetting() {
 		super();
 	}
 
-	public CEOSetting(int id, Session session, String image, String titleTag, String description, String slug) {
+	public CEOSetting(int id, Section session, String image, String titleTag, String description, String slug,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -45,6 +49,15 @@ public class CEOSetting {
 		this.titleTag = titleTag;
 		this.description = description;
 		this.slug = slug;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -55,11 +68,11 @@ public class CEOSetting {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import com.example.livi.model.ClientBrandList;
 import com.example.livi.model.ClientBrandType;
 import com.example.livi.model.HeroBanner;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ClientBrandListRepository;
 import com.example.livi.repository.HeroBannerRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ClientBrandListService {
 	@Autowired
 	private ClientBrandListRepository clientBrandListRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<ClientBrandList> getBrandLists() {
 		return clientBrandListRepository.findAll();
@@ -30,7 +30,7 @@ public class ClientBrandListService {
 
 	public ClientBrandList addClientBrandList(ClientBrandList clientBrandList, int sessionId) {
 		if (clientBrandList != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			clientBrandList.setSession(session);
 			return clientBrandListRepository.save(clientBrandList);
@@ -52,6 +52,9 @@ public class ClientBrandListService {
 		}
 		if (clientBrandList.getClientBrandType() != null) {
 			clientBrandList2.setClientBrandType(clientBrandList.getClientBrandType());
+		}
+		if (clientBrandList.getLang() != null) {
+			clientBrandList2.setLang(clientBrandList.getLang());
 		}
 		return clientBrandListRepository.save(clientBrandList2);
 	}

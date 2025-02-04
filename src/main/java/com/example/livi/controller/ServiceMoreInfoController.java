@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.livi.model.AboutLiviLife;
+
 import com.example.livi.model.ServiceMoreInfo;
 import com.example.livi.service.ServiceMoreInfoSerivce;
 
@@ -38,15 +37,16 @@ public class ServiceMoreInfoController {
 	}
 
 	@PostMapping("/{sessionId}")
-	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
+	public ResponseEntity<?> add(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam("headline") String headline, @RequestParam("subheadline") String subheadline,
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
 			ServiceMoreInfo serviceMoreInfo = new ServiceMoreInfo();
 			serviceMoreInfo.setHeadline(headline);
 			serviceMoreInfo.setSubHeadline(subheadline);
-
+			serviceMoreInfo.setLang(lang);
 			ServiceMoreInfo savedEntity = serviceMoreInfoSerivce.addServiceMoreInfo(serviceMoreInfo, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -58,7 +58,10 @@ public class ServiceMoreInfoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam(value = "headline", required = false) String headline,
-			@RequestParam(value = "subheadline", required = false) String subheadline, @PathVariable int id)
+			@RequestParam(value = "subheadline", required = false) String subheadline, 
+			@RequestParam(value = "lang", required = false) String lang, 
+
+			@PathVariable int id)
 			throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -68,6 +71,7 @@ public class ServiceMoreInfoController {
 			ServiceMoreInfo serviceMoreInfo = new ServiceMoreInfo();
 			serviceMoreInfo.setHeadline(headline);
 			serviceMoreInfo.setSubHeadline(subheadline);
+			serviceMoreInfo.setLang(lang);
 			ServiceMoreInfo updatedEntity = serviceMoreInfoSerivce.updateServiceMoreInfo(id, serviceMoreInfo, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

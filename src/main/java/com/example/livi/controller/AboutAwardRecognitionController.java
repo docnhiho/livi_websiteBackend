@@ -50,13 +50,15 @@ public class AboutAwardRecognitionController {
 
 	@PostMapping("/{sessionId}")
 	public ResponseEntity<?> add(@PathVariable int sessionId, @RequestParam("file") MultipartFile file,
-			@RequestParam("name") String name, @RequestParam("description") String description) throws IOException {
+			@RequestParam("name") String name, 
+			@RequestParam("lang") String lang,
+			@RequestParam("description") String description) throws IOException {
 		try {
 			byte[] fileBytes = file.getBytes();
 			AboutAwardRecognition aboutAwardRecognition = new AboutAwardRecognition();
 			aboutAwardRecognition.setName(name);
 			aboutAwardRecognition.setDescription(description);
-
+			aboutAwardRecognition.setLang(lang);
 			AboutAwardRecognition savedEntity = aboutAwardRecognitionService
 					.addAboutAwardRecognition(aboutAwardRecognition, sessionId, fileBytes);
 
@@ -69,6 +71,7 @@ public class AboutAwardRecognitionController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable int id, @RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -78,6 +81,7 @@ public class AboutAwardRecognitionController {
 			AboutAwardRecognition aboutAwardRecognition = new AboutAwardRecognition();
 			aboutAwardRecognition.setName(name);
 			aboutAwardRecognition.setDescription(description);
+			aboutAwardRecognition.setLang(lang);
 			AboutAwardRecognition updatedEntity = aboutAwardRecognitionService.updateAboutAwardRecognition(id,
 					aboutAwardRecognition, fileBytes);
 

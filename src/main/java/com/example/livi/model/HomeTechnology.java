@@ -16,8 +16,8 @@ public class HomeTechnology {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@ManyToOne
 	@JoinColumn(name = "Tech_Listing_ID", nullable = false)
@@ -25,19 +25,24 @@ public class HomeTechnology {
 	
 	@ManyToOne
 	@JoinColumn(name = "Related_New_ID", nullable = false)
-	private TechNews techNews;
+	private MediaList mediaList;
 	
 	@ManyToOne
 	@JoinColumn(name = "Award_ID", nullable = false)
-	private TechAward techAward;
+	private AboutAwardRecognition AboutAwardRecognition;
 
-	public HomeTechnology(int id, Session session, TechListing techListing, TechNews techNews, TechAward techAward) {
+
+
+
+
+	public HomeTechnology(int id, Section session, TechListing techListing, MediaList mediaList,
+			com.example.livi.model.AboutAwardRecognition aboutAwardRecognition) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.techListing = techListing;
-		this.techNews = techNews;
-		this.techAward = techAward;
+		this.mediaList = mediaList;
+		AboutAwardRecognition = aboutAwardRecognition;
 	}
 
 	public HomeTechnology() {
@@ -52,11 +57,11 @@ public class HomeTechnology {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 
@@ -68,21 +73,24 @@ public class HomeTechnology {
 		this.techListing = techListing;
 	}
 
-	public TechNews getTechNews() {
-		return techNews;
+
+	public MediaList getMediaList() {
+		return mediaList;
 	}
 
-	public void setTechNews(TechNews techNews) {
-		this.techNews = techNews;
+	public void setMediaList(MediaList mediaList) {
+		this.mediaList = mediaList;
 	}
 
-	public TechAward getTechAward() {
-		return techAward;
+	public AboutAwardRecognition getAboutAwardRecognition() {
+		return AboutAwardRecognition;
 	}
 
-	public void setTechAward(TechAward techAward) {
-		this.techAward = techAward;
+	public void setAboutAwardRecognition(AboutAwardRecognition aboutAwardRecognition) {
+		AboutAwardRecognition = aboutAwardRecognition;
 	}
+
+	
 	
 	
 

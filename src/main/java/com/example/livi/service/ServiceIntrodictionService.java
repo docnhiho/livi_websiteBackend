@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.example.livi.model.ServiceIntroduction;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceIntrodictionRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceIntrodictionService {
 	@Autowired
 	private ServiceIntrodictionRepository serviceIntrodictionRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	@Value("${file.upload-dir}")
 	private String uploadDir;
 	
@@ -32,7 +32,7 @@ public class ServiceIntrodictionService {
 	public ServiceIntroduction addServiceIntroduction(ServiceIntroduction serviceIntroduction, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		serviceIntroduction.setSession(session);
 		serviceIntroduction.setIcon(base64Image);
@@ -49,7 +49,12 @@ public class ServiceIntrodictionService {
 			if (serviceIntroduction.getHeadline() != null) {
 				existingEntity.setHeadline(serviceIntroduction.getHeadline());
 			}
-
+			if (serviceIntroduction.getDescription() != null) {
+				existingEntity.setDescription(serviceIntroduction.getDescription());
+			}		
+			if (serviceIntroduction.getLang() != null) {
+				existingEntity.setLang(serviceIntroduction.getLang());
+			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getIcon())) {
 				existingEntity.setIcon(base64Image);
 			}

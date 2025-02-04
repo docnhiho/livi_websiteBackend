@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.livi.model.ClientBrandType;
 
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ClientBrandTypeRepository;
 
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ClientBrandTypeService {
 	@Autowired
 	private ClientBrandTypeRepository clientBrandTypeRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<ClientBrandType> geBrandTypes() {
 		return clientBrandTypeRepository.findAll();
@@ -29,7 +29,7 @@ public class ClientBrandTypeService {
 
 	public ClientBrandType addClientBrandType(ClientBrandType clientBrandType, int sessionId) {
 		if (clientBrandType != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			clientBrandType.setSession(session);
 			return clientBrandTypeRepository.save(clientBrandType);
@@ -48,6 +48,9 @@ public class ClientBrandTypeService {
 		}
 		if (clientBrandType.getNote() != null) {
 			clientBrandType2.setNote(clientBrandType.getNote());
+		}
+		if (clientBrandType.getLang() != null) {
+			clientBrandType2.setLang(clientBrandType.getLang());
 		}
 		return clientBrandTypeRepository.save(clientBrandType2);
 	}

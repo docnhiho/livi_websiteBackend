@@ -10,15 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.ServiceKeyFeatures;
-import com.example.livi.model.Session;
 import com.example.livi.service.ServiceKeyFeaturesService;
 
 @RestController
@@ -42,6 +38,7 @@ public class ServiceKeyFeaturesController {
 			@RequestParam("name") String name,
 			@RequestParam("link") String link, 
 			@RequestParam("ButtonText") String buttonText, 
+			@RequestParam("lang") String lang, 
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
@@ -49,6 +46,7 @@ public class ServiceKeyFeaturesController {
 			serviceKeyFeature.setName(name);
 			serviceKeyFeature.setLink(link);
 			serviceKeyFeature.setButtonText(buttonText);
+			serviceKeyFeature.setLang(lang);
 			ServiceKeyFeatures savedEntity = serviceKeyFeatures.addServiceKeyFeatures(serviceKeyFeature, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -62,6 +60,8 @@ public class ServiceKeyFeaturesController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "link", required = false) String link, 
 			@RequestParam(value = "ButtonText", required = false) String buttonText, 
+			@RequestParam(value = "lang", required = false) String lang, 
+
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -72,6 +72,7 @@ public class ServiceKeyFeaturesController {
 			serviceKeyFeature.setName(name);
 			serviceKeyFeature.setButtonText(buttonText);
 			serviceKeyFeature.setLink(link);
+			serviceKeyFeature.setLang(lang);
 			ServiceKeyFeatures updatedEntity = serviceKeyFeatures.updateServiceKeyFeatures(id, serviceKeyFeature, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

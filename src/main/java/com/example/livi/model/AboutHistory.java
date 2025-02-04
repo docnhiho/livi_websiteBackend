@@ -17,8 +17,8 @@ public class AboutHistory {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Year")
 	private String year;
@@ -29,17 +29,29 @@ public class AboutHistory {
 	@Column(name = "Description")
 	private String description;
 	
-	public AboutHistory(int id, Session session, String year, String month, String description) {
+	@Column(name = "Lang")
+	private String Lang;
+	
+	public AboutHistory() {
+		super();
+	}
+
+	public AboutHistory(int id, Section session, String year, String month, String description, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.year = year;
 		this.month = month;
 		this.description = description;
+		Lang = lang;
 	}
 
-	public AboutHistory() {
-		super();
+	public String getLang() {
+		return Lang;
+	}
+
+	public void setLang(String lang) {
+		Lang = lang;
 	}
 
 	public int getId() {
@@ -50,11 +62,11 @@ public class AboutHistory {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.livi.model.Contact;
 import com.example.livi.model.HeroBanner;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ContactRepository;
 import com.example.livi.repository.HeroBannerRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ContactService {
@@ -18,7 +18,7 @@ public class ContactService {
 	@Autowired
 	private ContactRepository contactRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 
 
@@ -32,7 +32,7 @@ public class ContactService {
 
 	public Contact addContact(Contact contact, int sessionId) {
 		if (contact != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			contact.setSession(session);
 			return contactRepository.save(contact);
@@ -54,6 +54,9 @@ public class ContactService {
 		}
 		if (contact.getMapLink() != null) {
 			contact2.setMapLink(contact.getMapLink());
+		}
+		if (contact.getLang() != null) {
+			contact2.setLang(contact.getLang());
 		}
 		return contactRepository.save(contact2);
 	}

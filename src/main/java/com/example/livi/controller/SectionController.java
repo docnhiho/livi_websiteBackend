@@ -14,27 +14,27 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.livi.model.AboutLiviLife;
-import com.example.livi.model.Session;
-import com.example.livi.service.SessionService;
+import com.example.livi.model.Section;
+import com.example.livi.service.SectionService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/session")
-public class SessionController {
+@RequestMapping("/section")
+public class SectionController {
 	
 	@Autowired
-	private SessionService sessionService;
+	private SectionService sessionService;
 	
 
 	@GetMapping("")
-	public List<Session> getAllSessions() {
+	public List<Section> getAllSessions() {
 		return sessionService.getAllSessions();
 	}
 	
 	@GetMapping("{id}")
-	public Session getSessionById(@PathVariable int id) {
+	public Section getSessionById(@PathVariable int id) {
 		return sessionService.getSessionById(id);
 	}
 	
@@ -52,18 +52,20 @@ public class SessionController {
 			@RequestParam(value = "subheadline", required = false) String subheadline,
 			@RequestParam(value = "ButtonText", required = false) String buttonText,
 			@RequestParam(value = "link", required = false) String link,
+			@RequestParam(value = "lang", required = false) String lang,
+
 			@PathVariable int pageId) throws IOException {
 		try {
 			byte[] fileBytes = converBanner.getBytes();
-			Session session = new Session();
+			Section session = new Section();
 			session.setHeadLine(headline);
 			session.setDescription(description);
 			session.setLink(link);
 			session.setName(name);
 			session.setSubHeadline(subheadline);
 			session.setButtonText(buttonText);
-
-			Session savedEntity = sessionService.addSession(session, pageId,
+			session.setLang(lang);
+			Section savedEntity = sessionService.addSession(session, pageId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
 		} catch (IllegalArgumentException e) {
@@ -79,21 +81,23 @@ public class SessionController {
 			@RequestParam(value = "subheadline", required = false) String subheadline,
 			@RequestParam(value = "ButtonText", required = false) String buttonText,
 			@RequestParam(value = "link", required = false) String link,
+			@RequestParam(value = "lang", required = false) String lang,
+
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
 			if (converBanner != null) {
 				fileBytes = converBanner.getBytes();
 			}
-			Session session = new Session();
+			Section session = new Section();
 			session.setDescription(description);
 			session.setHeadLine(headline);
 			session.setLink(link);
 			session.setSubHeadline(subheadline);
 			session.setButtonText(buttonText);
 			session.setName(name);
-			
-			Session updatedEntity = sessionService.updateSession(id, session, fileBytes);
+			session.setLang(lang);
+			Section updatedEntity = sessionService.updateSession(id, session, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);
 		} catch (IllegalArgumentException e) {

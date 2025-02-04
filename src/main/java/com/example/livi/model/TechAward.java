@@ -17,8 +17,12 @@ public class TechAward {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
+
+	@ManyToOne
+	@JoinColumn(name = "Award_ID", nullable = false)
+	private AboutAwardRecognition aboutAwardRecognition;
 	
 	@Column(name = "Thumbnail")
 	private String thumbnail;
@@ -28,14 +32,38 @@ public class TechAward {
 	
 	@Column(name = "Description")
 	private String description;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public TechAward(int id, Session session, String thumbnail, String name, String description) {
+
+
+	public TechAward(int id, Section session, AboutAwardRecognition aboutAwardRecognition, String thumbnail,
+			String name, String description, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
+		this.aboutAwardRecognition = aboutAwardRecognition;
 		this.thumbnail = thumbnail;
 		this.name = name;
 		this.description = description;
+		this.lang = lang;
+	}
+
+	public AboutAwardRecognition getAboutAwardRecognition() {
+		return aboutAwardRecognition;
+	}
+
+	public void setAboutAwardRecognition(AboutAwardRecognition aboutAwardRecognition) {
+		this.aboutAwardRecognition = aboutAwardRecognition;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public TechAward() {
@@ -50,11 +78,11 @@ public class TechAward {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

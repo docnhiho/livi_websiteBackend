@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.ServiceKeyAdvantages;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceKeyAdvantagesRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceKeyAdvantagesService {
@@ -16,7 +16,7 @@ public class ServiceKeyAdvantagesService {
 	@Autowired
 	private ServiceKeyAdvantagesRepository serviceKeyAdvantagesRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<ServiceKeyAdvantages> getServiceKeyAdvantages(){
 		return serviceKeyAdvantagesRepository.findAll();
@@ -28,7 +28,7 @@ public class ServiceKeyAdvantagesService {
 	
 	public ServiceKeyAdvantages addServiceKeyAdvantages(ServiceKeyAdvantages serviceKeyAdvantages, int sessionId) {
 		if (serviceKeyAdvantages != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			serviceKeyAdvantages.setSession(session);
 			return serviceKeyAdvantagesRepository.save(serviceKeyAdvantages);
@@ -43,6 +43,9 @@ public class ServiceKeyAdvantagesService {
 		}
 		if(serviceKeyAdvantages.getDescription() != null) {
 			serviceKeyAdvantages2.setHeadLine(serviceKeyAdvantages.getDescription());
+		}
+		if(serviceKeyAdvantages.getLang() != null) {
+			serviceKeyAdvantages2.setLang(serviceKeyAdvantages.getLang());
 		}
 		return serviceKeyAdvantagesRepository.save(serviceKeyAdvantages2);
 	}

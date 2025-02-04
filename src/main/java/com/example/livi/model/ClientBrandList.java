@@ -18,8 +18,8 @@ public class ClientBrandList {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@ManyToOne
 	@JoinColumn(name = "Brand_Type_ID", nullable = false)
@@ -36,9 +36,12 @@ public class ClientBrandList {
 	
 	@Column(name = "Note")
 	private String note;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public ClientBrandList(int id, Session session, ClientBrandType clientBrandType, String name, String imgae,
-			String link, String note) {
+	public ClientBrandList(int id, Section session, ClientBrandType clientBrandType, String name, String imgae,
+			String link, String note, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -47,6 +50,15 @@ public class ClientBrandList {
 		this.imgae = imgae;
 		this.link = link;
 		this.note = note;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public ClientBrandList() {
@@ -61,11 +73,11 @@ public class ClientBrandList {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

@@ -17,8 +17,12 @@ public class TechNews {
 	private int id;
 	
 	@ManyToOne
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
+	
+	@ManyToOne
 	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	private MediaList mediaList;
 	
 	@Column(name = "Thumbnail")
 	private String thumbnail;
@@ -28,14 +32,36 @@ public class TechNews {
 	
 	@Column(name = "Description")
 	private String Description;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public TechNews(int id, Session session, String thumbnail, String name, String description) {
+	public TechNews(int id, Section session, MediaList mediaList, String thumbnail, String name, String description,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
+		this.mediaList = mediaList;
 		this.thumbnail = thumbnail;
 		this.name = name;
 		Description = description;
+		this.lang = lang;
+	}
+
+	public MediaList getMediaList() {
+		return mediaList;
+	}
+
+	public void setMediaList(MediaList mediaList) {
+		this.mediaList = mediaList;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public TechNews() {
@@ -50,11 +76,11 @@ public class TechNews {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

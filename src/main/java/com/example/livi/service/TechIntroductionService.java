@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechIntroduction;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechIntroductionRepository;
 
 @Service
@@ -16,7 +16,7 @@ public class TechIntroductionService {
 	@Autowired
 	private TechIntroductionRepository techIntroductionRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	
 	public List<TechIntroduction> getTechIntroductions(){
 		return techIntroductionRepository.findAll();
@@ -30,7 +30,7 @@ public class TechIntroductionService {
 	public TechIntroduction addTechIntroduction(TechIntroduction techIntroduction, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		techIntroduction.setSession(session);
 		techIntroduction.setIcon(base64Image);
@@ -49,6 +49,9 @@ public class TechIntroductionService {
 			}
 			if (techIntroduction.getDescription() != null) {
 				existingEntity.setDescription(techIntroduction.getDescription());
+			}
+			if (techIntroduction.getLang() != null) {
+				existingEntity.setLang(techIntroduction.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getIcon())) {
 				existingEntity.setIcon(base64Image);

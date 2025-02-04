@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.CTABanner;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.CTABannerRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class CTABannerService {
@@ -20,7 +20,7 @@ public class CTABannerService {
 	private CTABannerRepository ctaBannerRepository;
 
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<CTABanner> getAllBanner() {
 		return ctaBannerRepository.findAll();
@@ -33,7 +33,7 @@ public class CTABannerService {
 	public CTABanner addBanner(CTABanner ctaBanner, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		ctaBanner.setSession(session);
 		ctaBanner.setCoverImage(base64Image);
@@ -47,7 +47,9 @@ public class CTABannerService {
 		Optional<CTABanner> optional = ctaBannerRepository.findById(id);
 		if (optional.isPresent()) {
 			CTABanner existingEntity = optional.get();
-
+			if (ctaBanner.getLang() != null) {
+				existingEntity.setLang(ctaBanner.getLang());
+			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getCoverImage())) {
 				existingEntity.setCoverImage(base64Image);
 			}

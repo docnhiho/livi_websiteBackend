@@ -22,8 +22,8 @@ public class ClientBrandType {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@OneToMany(mappedBy = "clientBrandType")
 	@JsonIgnore
@@ -37,9 +37,16 @@ public class ClientBrandType {
 	
 	@Column(name = "Note")
 	private String note;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public ClientBrandType(int id, Session session, List<ClientBrandList> clientBrandList, String name, String type,
-			String note) {
+	public ClientBrandType() {
+		super();
+	}
+
+	public ClientBrandType(int id, Section session, List<ClientBrandList> clientBrandList, String name, String type,
+			String note, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -47,10 +54,7 @@ public class ClientBrandType {
 		this.name = name;
 		this.type = type;
 		this.note = note;
-	}
-
-	public ClientBrandType() {
-		super();
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -61,11 +65,11 @@ public class ClientBrandType {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 
@@ -100,6 +104,14 @@ public class ClientBrandType {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
 	
 }

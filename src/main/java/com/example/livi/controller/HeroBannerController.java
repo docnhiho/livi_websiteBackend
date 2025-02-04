@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.HeroBanner;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.service.HeroBannerService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +46,7 @@ public class HeroBannerController {
 			@RequestParam("subheadline") String subheadline,
 			@RequestParam("buttonText") String buttonText,
 			@RequestParam("Link") String link,
+			@RequestParam("Lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = image.getBytes();
@@ -54,6 +55,8 @@ public class HeroBannerController {
 			heroBanner.setSubHeadline(subheadline);
 			heroBanner.setButtonText(buttonText);
 			heroBanner.setLink(link);
+			heroBanner.setLang(lang);
+
 			HeroBanner savedEntity = heroBannerService.addSBanner(heroBanner, sessionId,
 					fileBytes);
 
@@ -68,7 +71,7 @@ public class HeroBannerController {
 			@RequestParam(value = "subheadlne", required = false) String subheadlne,
 			@RequestParam(value = "buttonText", required = false) String buttonText,
 			@RequestParam(value = "Link", required = false) String link,
-
+			@RequestParam(value = "Lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -80,6 +83,8 @@ public class HeroBannerController {
 			heroBanner.setHeadLine(headline);
 			heroBanner.setLink(link);
 			heroBanner.setButtonText(buttonText);
+			heroBanner.setLang(lang);
+
 			HeroBanner updatedEntity = heroBannerService.updateBanner(id, heroBanner, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

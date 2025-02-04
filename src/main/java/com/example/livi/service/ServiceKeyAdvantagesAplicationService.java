@@ -3,15 +3,12 @@ package com.example.livi.service;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.ServiceKeyAdvantagesAplication;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceKeyAdvantagesAplicationRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceKeyAdvantagesAplicationService {
@@ -19,7 +16,7 @@ public class ServiceKeyAdvantagesAplicationService {
 	@Autowired
 	private ServiceKeyAdvantagesAplicationRepository serviceKeyAdvantagesAplicationRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<ServiceKeyAdvantagesAplication> getServiceKeyAdvantagesAplication() {
 		return serviceKeyAdvantagesAplicationRepository.findAll();
@@ -34,7 +31,7 @@ public class ServiceKeyAdvantagesAplicationService {
 			ServiceKeyAdvantagesAplication serviceKeyAdvantagesAplication, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		serviceKeyAdvantagesAplication.setSession(session);
 		serviceKeyAdvantagesAplication.setThumbnail(base64Image);
@@ -54,6 +51,9 @@ public class ServiceKeyAdvantagesAplicationService {
 			}
 			if (serviceKeyAdvantagesAplication.getLink() != null) {
 				existingEntity.setLink(serviceKeyAdvantagesAplication.getLink());
+			}
+			if (serviceKeyAdvantagesAplication.getLang() != null) {
+				existingEntity.setLang(serviceKeyAdvantagesAplication.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

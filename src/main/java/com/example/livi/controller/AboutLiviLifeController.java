@@ -41,7 +41,9 @@ public class AboutLiviLifeController {
 
 	@PostMapping("/{sessionId}")
 	public ResponseEntity<?> add(@RequestParam("image") MultipartFile image,
-			@RequestParam("headline") String headline, @RequestParam("description") String description,
+			@RequestParam("headline") String headline,
+			@RequestParam("description") String description,
+			@RequestParam("lang") String lang,
 			@RequestParam("link") String link, @PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = image.getBytes();
@@ -49,6 +51,7 @@ public class AboutLiviLifeController {
 			aboutAwardRecognition.setHeadLine(headline);
 			aboutAwardRecognition.setDescription(description);
 			aboutAwardRecognition.setLink(link);
+			aboutAwardRecognition.setLang(lang);
 			AboutLiviLife savedEntity = aboutLiviLifeService.addAboutLiviLife(aboutAwardRecognition, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -61,6 +64,7 @@ public class AboutLiviLifeController {
 	public ResponseEntity<?> update(@RequestParam(value = "image", required = false) MultipartFile image,
 			@RequestParam(value = "headline", required = false) String headline,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@RequestParam(value = "link", required = false) String link, @PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -71,6 +75,7 @@ public class AboutLiviLifeController {
 			aboutLiviLife.setDescription(description);
 			aboutLiviLife.setHeadLine(headline);
 			aboutLiviLife.setLink(link);
+			aboutLiviLife.setLang(lang);
 			AboutLiviLife updatedEntity = aboutLiviLifeService.updateAboutLiviLife(id, aboutLiviLife, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

@@ -17,21 +17,33 @@ public class Introduction {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Title")
 	private String title;
 	
 	@Column(name = "Description")
 	private String description;
+	
+	@Column(name = "Lang")
+	private String lang;
 
-	public Introduction(int id, Session session, String title, String description) {
+	public Introduction(int id, Section session, String title, String description, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
 		this.title = title;
 		this.description = description;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public Introduction() {
@@ -46,11 +58,11 @@ public class Introduction {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

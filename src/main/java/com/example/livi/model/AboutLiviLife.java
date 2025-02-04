@@ -17,8 +17,8 @@ public class AboutLiviLife {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Image")
 	private String image;
@@ -32,7 +32,16 @@ public class AboutLiviLife {
 	@Column(name = "Link")
 	private String link;
 
-	public AboutLiviLife(int id, Session session, String image, String headLine, String description, String link) {
+	@Column(name = "Lang")
+	private String lang;
+	
+
+	public AboutLiviLife() {
+		super();
+	}
+
+	public AboutLiviLife(int id, Section session, String image, String headLine, String description, String link,
+			String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -40,10 +49,15 @@ public class AboutLiviLife {
 		this.headLine = headLine;
 		this.description = description;
 		this.link = link;
+		this.lang = lang;
 	}
 
-	public AboutLiviLife() {
-		super();
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -54,11 +68,11 @@ public class AboutLiviLife {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

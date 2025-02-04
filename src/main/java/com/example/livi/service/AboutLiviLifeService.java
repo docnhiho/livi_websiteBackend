@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutLiviLife;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.AboutLiviLifeRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 
 @Service
@@ -20,7 +20,7 @@ public class AboutLiviLifeService {
 	@Autowired
 	private AboutLiviLifeRepository aboutLiviLifeRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 	@Value("${file.upload-dir}")
 	private String uploadDir;
 	
@@ -36,7 +36,7 @@ public class AboutLiviLifeService {
 	public AboutLiviLife addAboutLiviLife(AboutLiviLife aboutLiviLife, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		aboutLiviLife.setSession(session);
 		aboutLiviLife.setImage(base64Image);
@@ -58,6 +58,9 @@ public class AboutLiviLifeService {
 			}
 			if (aboutLiviLife.getLink() != null) {
 				existingEntity.setLink(aboutLiviLife.getLink());
+			}
+			if (aboutLiviLife.getLang() != null) {
+				existingEntity.setLang(aboutLiviLife.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
 				existingEntity.setImage(base64Image);

@@ -44,13 +44,14 @@ public class TechNewsController {
 	public ResponseEntity<?> add(@RequestParam("thumbnail") MultipartFile thumbnail,
 			@RequestParam("name") String name,
 			@RequestParam("description") String description,
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = thumbnail.getBytes();
 			TechNews techNews = new TechNews();
 			techNews.setName(name);
 			techNews.setDescription(description);
-
+			techNews.setLang(lang);
 			TechNews savedEntity = techNewsService.addTechNews(techNews, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -63,6 +64,7 @@ public class TechNewsController {
 	public ResponseEntity<?> update(@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -72,6 +74,7 @@ public class TechNewsController {
 			TechNews techNews = new TechNews();
 			techNews.setDescription(description);
 			techNews.setName(name);
+			techNews.setLang(lang);
 			TechNews updatedEntity = techNewsService.updateTechNews(id, techNews, fileBytes);
 
 			return ResponseEntity.ok(updatedEntity);

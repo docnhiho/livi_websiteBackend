@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.ServiceListing;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.ServiceListingRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class ServiceListingService {
@@ -16,7 +16,7 @@ public class ServiceListingService {
 	@Autowired
 	private ServiceListingRepository serviceListingRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<ServiceListing> getServiceListing() {
 		return serviceListingRepository.findAll();
@@ -28,7 +28,7 @@ public class ServiceListingService {
 
 	public ServiceListing addServiceListing(ServiceListing serviceListing, int sessionId) {
 		if (serviceListing != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			serviceListing.setSession(session);
 			return serviceListingRepository.save(serviceListing);
@@ -52,6 +52,9 @@ public class ServiceListingService {
 		}
 		if(serviceListing.getName() != null) {
 			serviceListing2.setCreateDate(serviceListing.getCreateDate());
+		}
+		if(serviceListing.getLang() != null) {
+			serviceListing2.setLang(serviceListing.getLang());
 		}
 		return serviceListingRepository.save(serviceListing2);
 	}

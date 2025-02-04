@@ -3,14 +3,11 @@ package com.example.livi.service;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.livi.model.AboutLiviLife;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechAppliedTech;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechAppliedTechRepository;
 
 @Service
@@ -19,7 +16,7 @@ public class TechAppliedTechService {
 	@Autowired
 	private TechAppliedTechRepository techAppliedTechRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<TechAppliedTech> geTechAppliedTech() {
 		return techAppliedTechRepository.findAll();
@@ -32,7 +29,7 @@ public class TechAppliedTechService {
 	public TechAppliedTech addTechAppliedTech(TechAppliedTech techAppliedTech, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		techAppliedTech.setSession(session);
 		techAppliedTech.setThumbnail(base64Image);
@@ -51,6 +48,9 @@ public class TechAppliedTechService {
 			}
 			if (techAppliedTech.getDescription() != null) {
 				existingEntity.setDescription(techAppliedTech.getDescription());
+			}
+			if (techAppliedTech.getLang() != null) {
+				existingEntity.setLang(techAppliedTech.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getThumbnail())) {
 				existingEntity.setThumbnail(base64Image);

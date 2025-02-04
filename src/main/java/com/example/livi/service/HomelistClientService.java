@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.HomelistClient;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.HomelistClientRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class HomelistClientService {
 	@Autowired
 	private HomelistClientRepository homelistClientRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<HomelistClient> getList() {
 		return homelistClientRepository.findAll();
@@ -27,7 +27,7 @@ public class HomelistClientService {
 
 	public HomelistClient addHomelistClient(HomelistClient homelistClient, int sessionId) {
 		if (homelistClient != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			homelistClient.setSession(session);
 			return homelistClientRepository.save(homelistClient);

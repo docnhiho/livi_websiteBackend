@@ -40,12 +40,14 @@ public class TechIntroductionController {
 	public ResponseEntity<?> add(@RequestParam("icon_display") MultipartFile iconDisplay,
 			@RequestParam("headline") String headline, 
 			@RequestParam("description") String description,
+			@RequestParam("lang") String lang,
 			@PathVariable int sessionId) throws IOException {
 		try {
 			byte[] fileBytes = iconDisplay.getBytes();
 			TechIntroduction techIntroduction = new TechIntroduction();
 			techIntroduction.setHeadline(headline);
 			techIntroduction.setDescription(description);
+			techIntroduction.setLang(lang);
 			TechIntroduction savedEntity = techIntroductionService.addTechIntroduction(techIntroduction, sessionId,
 					fileBytes);
 			return ResponseEntity.ok(savedEntity);
@@ -58,6 +60,7 @@ public class TechIntroductionController {
 	public ResponseEntity<?> update(@RequestParam(value = "icon_display", required = false) MultipartFile iconDisplay,
 			@RequestParam(value = "headline", required = false) String headline,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "lang", required = false) String lang,
 			@PathVariable int id) throws IOException {
 		try {
 			byte[] fileBytes = null;
@@ -67,6 +70,7 @@ public class TechIntroductionController {
 			TechIntroduction techIntroduction = new TechIntroduction();
 			techIntroduction.setDescription(description);
 			techIntroduction.setHeadline(headline);
+			techIntroduction.setLang(lang);
 			TechIntroduction updatedEntity = techIntroductionService.updateTechIntroduction(id, techIntroduction, fileBytes);
 			return ResponseEntity.ok(updatedEntity);
 		} catch (IllegalArgumentException e) {

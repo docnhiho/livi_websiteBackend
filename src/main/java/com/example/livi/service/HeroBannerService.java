@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.example.livi.model.AboutLiviLife;
 import com.example.livi.model.HeroBanner;
 import com.example.livi.model.Page;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.HeroBannerRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class HeroBannerService {
@@ -20,7 +20,7 @@ public class HeroBannerService {
 	@Autowired
 	private HeroBannerRepository heroBannerRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public HeroBannerService(HeroBannerRepository heroBannerRepository) {
 		super();
@@ -38,7 +38,7 @@ public class HeroBannerService {
 	public HeroBanner addSBanner(HeroBanner heroBanner, int sessionId, byte[] fileBytes) {
 		String base64Image = Base64.getEncoder().encodeToString(fileBytes);
 
-		Session session = sessionRepository.findById(sessionId)
+		Section session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new IllegalArgumentException("Session không tồn tại!"));
 		heroBanner.setSession(session);
 		heroBanner.setImage(base64Image);
@@ -63,6 +63,9 @@ public class HeroBannerService {
 			}
 			if (banner.getButtonText() != null) {
 				existingEntity.setButtonText(banner.getButtonText());
+			}
+			if (banner.getLang() != null) {
+				existingEntity.setLang(banner.getLang());
 			}
 			if (base64Image != null && !base64Image.equals(existingEntity.getImage())) {
 				existingEntity.setImage(base64Image);

@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.AboutHistory;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.AboutHistoryRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class AboutHistoryService {
 	@Autowired
 	private AboutHistoryRepository aboutHistoryRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<AboutHistory> getAboutHistory() {
 		return aboutHistoryRepository.findAll();
@@ -27,7 +27,7 @@ public class AboutHistoryService {
 
 	public AboutHistory addAboutHistory(AboutHistory aboutHistory, int sessionId) {
 		if (aboutHistory != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			aboutHistory.setSession(session);
 			return aboutHistoryRepository.save(aboutHistory);
@@ -45,6 +45,9 @@ public class AboutHistoryService {
 		}
 		if (aboutHistory.getDescription() != null) {
 			aboutHistory2.setDescription(aboutHistory.getDescription());
+		}
+		if (aboutHistory.getLang() != null) {
+			aboutHistory2.setLang(aboutHistory.getLang());
 		}
 		return aboutHistoryRepository.save(aboutHistory2);
 	}

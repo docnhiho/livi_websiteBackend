@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.model.TechDevelopmentProcess;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 import com.example.livi.repository.TechDevelopmentProcessRepository;
 
 @Service
@@ -16,7 +16,7 @@ public class TechDevelopmentProcessService {
 	@Autowired
 	private TechDevelopmentProcessRepository techDevelopmentProcessRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<TechDevelopmentProcess> geTechDevelopmentProcesses(){
 		return techDevelopmentProcessRepository.findAll();
@@ -28,7 +28,7 @@ public class TechDevelopmentProcessService {
 	
 	public TechDevelopmentProcess addDevelopmentProcess(TechDevelopmentProcess techDevelopmentProcess, int sessionId) {
 		if (techDevelopmentProcess != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			techDevelopmentProcess.setSession(session);
 			return techDevelopmentProcessRepository.save(techDevelopmentProcess);
@@ -43,6 +43,9 @@ public class TechDevelopmentProcessService {
 		}
 		if(techDevelopmentProcess.getSubHeadline() != null) {
 			techDevelopmentProcess2.setSubHeadline(techDevelopmentProcess.getSubHeadline());
+		}
+		if(techDevelopmentProcess.getLang() != null) {
+			techDevelopmentProcess2.setLang(techDevelopmentProcess.getLang());
 		}
 		
 		return techDevelopmentProcessRepository.save(techDevelopmentProcess2);

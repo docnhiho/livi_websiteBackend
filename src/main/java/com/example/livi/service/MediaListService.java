@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.livi.model.MediaList;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.repository.MediaListRepository;
-import com.example.livi.repository.SessionRepository;
+import com.example.livi.repository.SectionRepository;
 
 @Service
 public class MediaListService {
@@ -16,7 +16,7 @@ public class MediaListService {
 	@Autowired
 	private MediaListRepository mediaListRepository;
 	@Autowired
-	private SessionRepository sessionRepository;
+	private SectionRepository sessionRepository;
 
 	public List<MediaList> getMediaLists() {
 		return mediaListRepository.findAll();
@@ -28,7 +28,7 @@ public class MediaListService {
 	
 	public MediaList addMediaList(MediaList mediaList, int sessionId) {
 		if (mediaList != null) {
-			Session session = sessionRepository.findById(sessionId)
+			Section session = sessionRepository.findById(sessionId)
 					.orElseThrow(() -> new RuntimeException("Page not found with id: " + sessionId));
 			mediaList.setSession(session);
 			return mediaListRepository.save(mediaList);
@@ -46,6 +46,9 @@ public class MediaListService {
 	        }
 	        if (mediaList.getMediaType() != null) {
 	        	mediaList2.setMediaType(mediaList.getMediaType());
+	        }
+	        if (mediaList.getLang() != null) {
+	        	mediaList2.setLang(mediaList.getLang());
 	        }
 		
 		return mediaListRepository.save(mediaList2);

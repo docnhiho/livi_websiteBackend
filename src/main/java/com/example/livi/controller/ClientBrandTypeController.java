@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.livi.model.ClientBrandType;
-import com.example.livi.model.Session;
+import com.example.livi.model.Section;
 import com.example.livi.service.ClientBrandTypeService;
 
 @RestController

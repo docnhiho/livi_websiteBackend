@@ -16,8 +16,8 @@ public class HomelistClient {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@ManyToOne
 	@JoinColumn(name = "Client_ID", nullable = false)
@@ -27,7 +27,7 @@ public class HomelistClient {
 		super();
 	}
 
-	public HomelistClient(int id, Session session, ClientBrandList clientBrandList) {
+	public HomelistClient(int id, Section session, ClientBrandList clientBrandList) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -42,11 +42,11 @@ public class HomelistClient {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 

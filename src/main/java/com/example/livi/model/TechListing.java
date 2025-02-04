@@ -19,8 +19,8 @@ public class TechListing {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Session_ID", nullable = false)
-	private Session session;
+	@JoinColumn(name = "Section_ID", nullable = false)
+	private Section session;
 	
 	@Column(name = "Technology_Name")
 	private String technologyName;
@@ -37,12 +37,15 @@ public class TechListing {
 	@Column(name = "Created_Date")
 	private Date createdDate;
 
+	@Column(name = "Lang")
+	private String lang;
+	
 	public TechListing() {
 		super();
 	}
 
-	public TechListing(int id, Session session, String technologyName, String link, String metaDescription,
-			String createdBy, Date createdDate) {
+	public TechListing(int id, Section session, String technologyName, String link, String metaDescription,
+			String createdBy, Date createdDate, String lang) {
 		super();
 		this.id = id;
 		this.session = session;
@@ -51,6 +54,15 @@ public class TechListing {
 		this.metaDescription = metaDescription;
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
+		this.lang = lang;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getId() {
@@ -61,11 +73,11 @@ public class TechListing {
 		this.id = id;
 	}
 
-	public Session getSession() {
+	public Section getSession() {
 		return session;
 	}
 
-	public void setSession(Session session) {
+	public void setSession(Section session) {
 		this.session = session;
 	}
 
